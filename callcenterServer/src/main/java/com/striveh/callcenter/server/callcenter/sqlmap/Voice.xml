@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【voice 】sql -->
+<mapper namespace="com.striveh.callcenter.server.callcenter.dao.VoiceDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.callcenter.VoicePojo" resultType="com.striveh.callcenter.pojo.callcenter.VoicePojo">
+		<![CDATA[ 
+			SELECT id,voiceCode,patch,createTime
+			FROM voice 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.callcenter.VoicePojo" resultType="com.striveh.callcenter.pojo.callcenter.VoicePojo">
+		<![CDATA[ 
+			SELECT id,voiceCode,patch,createTime
+			FROM voice
+		]]>
+		<where>
+			<choose>
+				<when test="id !=null"> id = #{id}</when>
+				<when test="voiceCode != null and voiceCode != ''"> voiceCode=#{voiceCode} </when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.callcenter.VoicePojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO voice (
+			    id,voiceCode,patch,createTime
+			) VALUES (
+				#{id},#{voiceCode},#{patch},#{createTime}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.callcenter.VoicePojo">
+		<![CDATA[ 
+			INSERT INTO voice (
+			    id,voiceCode,patch,createTime
+			) VALUES (
+				#{id},#{voiceCode},#{patch},#{createTime}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.callcenter.VoicePojo">
+		<![CDATA[ UPDATE voice]]>
+		<set>
+	 		<if test="id != null"><![CDATA[ id = #{id},]]></if>
+	 		<if test="voiceCode != null and voiceCode != ''"><![CDATA[ voiceCode = #{voiceCode},]]></if>
+	 		<if test="patch != null and patch != ''"><![CDATA[ patch = #{patch},]]></if>
+	 		<if test="createTime != null"><![CDATA[ createTime = #{createTime},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.callcenter.VoicePojo">
+		<![CDATA[ DELETE FROM voice where id = #{id} ]]>
+	</update>
+</mapper> 

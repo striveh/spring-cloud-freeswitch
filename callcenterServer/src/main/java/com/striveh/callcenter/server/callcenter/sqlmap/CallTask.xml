@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【callTask 呼叫任务表】sql -->
+<mapper namespace="com.striveh.callcenter.server.callcenter.dao.CallTaskDao">
+	<!-- ==============================非基础操作======================================= -->
+	<!--获取未结束的任务列表 -->
+	<select id="selectProcList" parameterType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo" resultType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo">
+		<![CDATA[
+			SELECT id,projectCode,callTaskCode,scheduleType,callType,callGWs,callListId,expiredTime,
+				addTime,updateTime,status,rate,successCount,failCount,missCount,totalCount,voiceCode
+			FROM callTask WHERE status<4
+		]]>
+		<if test="projectCode != null and projectCode != ''"> and <![CDATA[ projectCode = #{projectCode}]]></if>
+	</select>
+	<!--获取执行中的任务 -->
+	<select id="selectProc" parameterType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo" resultType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo">
+		<![CDATA[
+			SELECT id,projectCode,callTaskCode,scheduleType,callType,callGWs,callListId,expiredTime,
+				addTime,updateTime,status,rate,successCount,failCount,missCount,totalCount,voiceCode
+			FROM callTask WHERE status in (2,3) and projectCode = #{projectCode} order by id desc limit 1
+		]]>
+	</select>
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo" resultType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo">
+		<![CDATA[ 
+			SELECT id,projectCode,callTaskCode,scheduleType,callType,callGWs,callListId,expiredTime,
+				addTime,updateTime,status,rate,successCount,failCount,missCount,totalCount,voiceCode
+			FROM callTask 
+		]]>
+		<where>
+			<if test="status != null"> and <![CDATA[ status = #{status}]]></if>
+			<if test="projectCode != null and projectCode != ''"> and <![CDATA[ projectCode = #{projectCode}]]></if>
+		</where>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo" resultType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo">
+		<![CDATA[ 
+			SELECT id,projectCode,callTaskCode,scheduleType,callType,callGWs,callListId,expiredTime,
+				addTime,updateTime,status,rate,successCount,failCount,missCount,totalCount,voiceCode
+			FROM callTask
+		]]>
+		<where>
+			<choose>
+				<when test="id !=null"> id = #{id}</when>
+				<when test="callTaskCode != null and callTaskCode != ''"> callTaskCode=#{callTaskCode} </when>
+				<when test="projectCode != null"> projectCode=#{projectCode} order by id desc limit 1</when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO callTask (
+			    id,projectCode,callTaskCode,scheduleType,callType,callGWs,callListId,expiredTime,
+				addTime,updateTime,status,rate,successCount,failCount,missCount,voiceCode
+			) VALUES (
+				#{id},#{projectCode},#{callTaskCode},#{scheduleType},#{callType},#{callGWs},#{callListId},#{expiredTime},
+				#{addTime},#{updateTime},#{status},#{rate},#{successCount},#{failCount},#{missCount},#{voiceCode}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo">
+		<![CDATA[ 
+			INSERT INTO callTask (
+			    id,projectCode,callTaskCode,scheduleType,callType,callGWs,callListId,expiredTime,
+				addTime,updateTime,status,rate,successCount,failCount,missCount
+			) VALUES (
+				#{id},#{projectCode},#{callTaskCode},#{scheduleType},#{callType},#{callGWs},#{callListId},#{expiredTime},
+				#{addTime},#{updateTime},#{status},#{rate},#{successCount},#{failCount},#{missCount}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo">
+		<![CDATA[ UPDATE callTask]]>
+		<set>
+	 		<if test="id != null"><![CDATA[ id = #{id},]]></if>
+	 		<if test="projectCode != null and projectCode != ''"><![CDATA[ projectCode = #{projectCode},]]></if>
+	 		<if test="callTaskCode != null and callTaskCode != ''"><![CDATA[ callTaskCode = #{callTaskCode},]]></if>
+	 		<if test="scheduleType != null"><![CDATA[ scheduleType = #{scheduleType},]]></if>
+	 		<if test="callType != null"><![CDATA[ callType = #{callType},]]></if>
+	 		<if test="callGWs != null and callGWs != ''"><![CDATA[ callGWs = #{callGWs},]]></if>
+	 		<if test="callListId != null"><![CDATA[ callListId = #{callListId},]]></if>
+	 		<if test="expiredTime != null"><![CDATA[ expiredTime = #{expiredTime},]]></if>
+	 		<if test="addTime != null"><![CDATA[ addTime = #{addTime},]]></if>
+	 		<if test="updateTime != null"><![CDATA[ updateTime = #{updateTime},]]></if>
+	 		<if test="status != null"><![CDATA[ status = #{status},]]></if>
+	 		<if test="rate != null"><![CDATA[ rate = #{rate},]]></if>
+	 		<if test="successCount != null"><![CDATA[ successCount = #{successCount},]]></if>
+	 		<if test="failCount != null"><![CDATA[ failCount = #{failCount},]]></if>
+	 		<if test="missCount != null"><![CDATA[ missCount = #{missCount},]]></if>
+	 		<if test="totalCount != null"><![CDATA[ totalCount = #{totalCount},]]></if>
+	 		<if test="voiceCode != null"><![CDATA[ voiceCode = #{voiceCode},]]></if>
+		</set>
+		<where>
+			<choose>
+				<when test="id !=null"> id = #{id}</when>
+				<when test="callTaskCode != null and callTaskCode != ''"> callTaskCode=#{callTaskCode} </when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.callcenter.CallTaskPojo">
+		<![CDATA[ DELETE FROM callTask where id = #{id} ]]>
+	</update>
+</mapper> 

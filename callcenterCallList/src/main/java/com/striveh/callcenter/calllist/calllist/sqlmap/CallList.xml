@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【callList 】sql -->
+<mapper namespace="com.striveh.callcenter.calllist.calllist.dao.CallListDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.calllist.CallListPojo" resultType="com.striveh.callcenter.pojo.calllist.CallListPojo">
+		<![CDATA[ 
+			SELECT id,phone,callListId,result
+			FROM callList 
+		]]>
+		<where>
+			<choose>
+				<when test="callListId !=null"><![CDATA[ result = 1 and id > #{id} limit #{pageSize}]]></when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.calllist.CallListPojo" resultType="com.striveh.callcenter.pojo.calllist.CallListPojo">
+		<![CDATA[ 
+			SELECT id,phone,callListId,result
+			FROM callList WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.calllist.CallListPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO callList (
+			    id,phone,callListId,result
+			) VALUES (
+				#{id},#{phone},#{callListId},#{result}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.calllist.CallListPojo">
+		<![CDATA[ 
+			INSERT INTO callList (
+			    id,phone,callListId,result
+			) VALUES (
+				#{id},#{phone},#{callListId},#{result}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.calllist.CallListPojo">
+		<![CDATA[ UPDATE callList]]>
+		<set>
+	 		<if test="id != null"><![CDATA[ id = #{id},]]></if>
+	 		<if test="result != null and result != ''"><![CDATA[ result = #{result},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.calllist.CallListPojo">
+		<![CDATA[ DELETE FROM callList where id = #{id} ]]>
+	</update>
+</mapper> 

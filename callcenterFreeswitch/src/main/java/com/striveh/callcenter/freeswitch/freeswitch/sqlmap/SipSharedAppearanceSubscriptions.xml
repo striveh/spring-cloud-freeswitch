@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【sip_shared_appearance_subscriptions 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.SipSharedAppearanceSubscriptionsDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.SipSharedAppearanceSubscriptionsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.SipSharedAppearanceSubscriptionsPojo">
+		<![CDATA[ 
+			SELECT subscriber,call_id,aor,profile_name,hostname,contact_str,network_ip
+			FROM sip_shared_appearance_subscriptions 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.SipSharedAppearanceSubscriptionsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.SipSharedAppearanceSubscriptionsPojo">
+		<![CDATA[ 
+			SELECT subscriber,call_id,aor,profile_name,hostname,contact_str,network_ip
+			FROM sip_shared_appearance_subscriptions WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.SipSharedAppearanceSubscriptionsPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO sip_shared_appearance_subscriptions (
+			    subscriber,call_id,aor,profile_name,hostname,contact_str,network_ip
+			) VALUES (
+				#{subscriber},#{callId},#{aor},#{profileName},#{hostname},#{contactStr},#{networkIp}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.SipSharedAppearanceSubscriptionsPojo">
+		<![CDATA[ 
+			INSERT INTO sip_shared_appearance_subscriptions (
+			    subscriber,call_id,aor,profile_name,hostname,contact_str,network_ip
+			) VALUES (
+				#{subscriber},#{callId},#{aor},#{profileName},#{hostname},#{contactStr},#{networkIp}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.SipSharedAppearanceSubscriptionsPojo">
+		<![CDATA[ UPDATE sip_shared_appearance_subscriptions]]>
+		<set>
+	 		<if test="subscriber != null and subscriber != ''"><![CDATA[ subscriber = #{subscriber},]]></if>
+	 		<if test="callId != null and callId != ''"><![CDATA[ call_id = #{callId},]]></if>
+	 		<if test="aor != null and aor != ''"><![CDATA[ aor = #{aor},]]></if>
+	 		<if test="profileName != null and profileName != ''"><![CDATA[ profile_name = #{profileName},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+	 		<if test="contactStr != null and contactStr != ''"><![CDATA[ contact_str = #{contactStr},]]></if>
+	 		<if test="networkIp != null and networkIp != ''"><![CDATA[ network_ip = #{networkIp},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.SipSharedAppearanceSubscriptionsPojo">
+		<![CDATA[ DELETE FROM sip_shared_appearance_subscriptions where id = #{id} ]]>
+	</update>
+</mapper> 

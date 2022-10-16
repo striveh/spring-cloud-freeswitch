@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【freeswitch freeswitch服务实例表】sql -->
+<mapper namespace="com.striveh.callcenter.server.callcenter.dao.FreeswitchDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.callcenter.FreeswitchPojo" resultType="com.striveh.callcenter.pojo.callcenter.FreeswitchPojo">
+		<![CDATA[ 
+			SELECT id,host,port,password,callConcurrent,status,addTime,updateTime,nativeSipPhone,webSipPhone,weight
+				
+			FROM freeswitch 
+		]]>
+		<where>
+			<if test="status != null"> and <![CDATA[ status = #{status}]]></if>
+		</where>
+	</select>
+
+	<!--获取可用的服务列表 -->
+	<select id="selectAvailableServer" parameterType="com.striveh.callcenter.pojo.callcenter.FreeswitchPojo" resultType="com.striveh.callcenter.pojo.callcenter.FreeswitchPojo">
+		<![CDATA[
+			SELECT id,host,port,password,callConcurrent,status,addTime,updateTime,nativeSipPhone,webSipPhone,weight
+
+			FROM freeswitch where status=1 limit 1
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.callcenter.FreeswitchPojo" resultType="com.striveh.callcenter.pojo.callcenter.FreeswitchPojo">
+		<![CDATA[ 
+			SELECT id,host,port,password,callConcurrent,status,addTime,updateTime,nativeSipPhone,webSipPhone,weight
+				
+			FROM freeswitch
+		]]>
+		<where>
+			<choose>
+				<when test="id !=null"> id = #{id}</when>
+				<when test="host != null and host != ''"> host=#{host}</when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.callcenter.FreeswitchPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO freeswitch (
+			    id,host,port,password,callConcurrent,status,addTime,updateTime,nativeSipPhone,webSipPhone,weight
+				
+			) VALUES (
+				#{id},#{host},#{port},#{password},#{callConcurrent},#{status},#{addTime},#{updateTime},#{nativeSipPhone},#{webSipPhone},#{weight}
+				
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.callcenter.FreeswitchPojo">
+		<![CDATA[ 
+			INSERT INTO freeswitch (
+			    id,host,port,password,callConcurrent,status,addTime,updateTime,nativeSipPhone,webSipPhone,weight
+				
+			) VALUES (
+				#{id},#{host},#{port},#{password},#{callConcurrent},#{status},#{addTime},#{updateTime},#{nativeSipPhone},#{webSipPhone},#{weight}
+				
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.callcenter.FreeswitchPojo">
+		<![CDATA[ UPDATE freeswitch]]>
+		<set>
+	 		<if test="id != null"><![CDATA[ id = #{id},]]></if>
+	 		<if test="host != null and host != ''"><![CDATA[ host = #{host},]]></if>
+	 		<if test="port != null"><![CDATA[ port = #{port},]]></if>
+	 		<if test="password != null and password != ''"><![CDATA[ password = #{password},]]></if>
+	 		<if test="nativeSipPhone != null and nativeSipPhone != ''"><![CDATA[ nativeSipPhone = #{nativeSipPhone},]]></if>
+	 		<if test="webSipPhone != null and webSipPhone != ''"><![CDATA[ webSipPhone = #{webSipPhone},]]></if>
+	 		<if test="callConcurrent != null"><![CDATA[ callConcurrent = #{callConcurrent},]]></if>
+	 		<if test="status != null"><![CDATA[ status = #{status},]]></if>
+	 		<if test="addTime != null"><![CDATA[ addTime = #{addTime},]]></if>
+	 		<if test="updateTime != null"><![CDATA[ updateTime = #{updateTime},]]></if>
+	 		<if test="weight != null"><![CDATA[ weight = #{weight},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.callcenter.FreeswitchPojo">
+		<![CDATA[ DELETE FROM freeswitch where id = #{id} ]]>
+	</update>
+</mapper> 

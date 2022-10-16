@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【userinfo 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.UserinfoDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.UserinfoPojo" resultType="com.striveh.callcenter.pojo.freeswitch.UserinfoPojo">
+		<![CDATA[ 
+			SELECT id,username,password,projectId,workStatus,calluuid,lastSessionBeginTime,sessionStatus,status,destinationNumber,callTaskCode,destinationUUID,freeswitchId,type
+			FROM userinfo 
+		]]>
+		<where>
+			<choose>
+				<when test="projectId !=null and status !=null"> projectId = #{projectId} and status = #{status}</when>
+				<when test="projectId !=null"> projectId = #{projectId}</when>
+				<when test="workStatus !=null"> workStatus = #{workStatus}</when>
+				<otherwise>1=1</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.UserinfoPojo" resultType="com.striveh.callcenter.pojo.freeswitch.UserinfoPojo">
+		<![CDATA[ 
+			SELECT id,username,password,projectId,workStatus,calluuid,lastSessionBeginTime,sessionStatus,status,destinationNumber,callTaskCode,destinationUUID,freeswitchId,type
+			FROM userinfo
+		]]>
+		<where>
+			<choose>
+				<when test="id !=null"> id = #{id}</when>
+				<when test="username !=null"> username=#{username} </when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.UserinfoPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO userinfo (
+			    id,username,password,projectId,workStatus,type,freeswitchId
+			) VALUES (
+				#{id},#{username},#{password},#{projectId},#{workStatus},#{type},#{freeswitchId}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.UserinfoPojo">
+		<![CDATA[ 
+			INSERT INTO userinfo (
+	    		id,username,password,projectId,type
+			) VALUES (
+				#{id},#{username},#{password},#{projectId},#{type}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.UserinfoPojo">
+		<![CDATA[ UPDATE userinfo]]>
+		<set>
+	 		<if test="id != null"><![CDATA[ id = #{id},]]></if>
+	 		<if test="username != null and username != ''"><![CDATA[ username = #{username},]]></if>
+	 		<if test="password != null and password != ''"><![CDATA[ password = #{password},]]></if>
+	 		<if test="workStatus != null"><![CDATA[ workStatus = #{workStatus},]]></if>
+	 		<if test="calluuid != null"><![CDATA[ calluuid = #{calluuid},]]></if>
+	 		<if test="lastSessionBeginTime != null"><![CDATA[ lastSessionBeginTime = #{lastSessionBeginTime},]]></if>
+	 		<if test="sessionStatus != null"><![CDATA[ sessionStatus = #{sessionStatus},]]></if>
+	 		<if test="status != null"><![CDATA[ status = #{status},]]></if>
+	 		<if test="projectId != null"><![CDATA[ projectId = #{projectId},]]></if>
+	 		<if test="destinationNumber != null"><![CDATA[ destinationNumber = #{destinationNumber},]]></if>
+	 		<if test="callTaskCode != null"><![CDATA[ callTaskCode = #{callTaskCode},]]></if>
+	 		<if test="destinationUUID != null"><![CDATA[ destinationUUID = #{destinationUUID},]]></if>
+	 		<if test="freeswitchId != null"><![CDATA[ freeswitchId = #{freeswitchId},]]></if>
+	 		<if test="type != null"><![CDATA[ type = #{type},]]></if>
+		</set>
+		<where>
+			<choose>
+				<when test="username !=null"> username = #{username}</when>
+				<when test="id !=null"> id = #{id}</when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.UserinfoPojo">
+		<![CDATA[ DELETE FROM userinfo where id = #{id} ]]>
+	</update>
+</mapper> 

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【complete 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.CompleteDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.CompletePojo" resultType="com.striveh.callcenter.pojo.freeswitch.CompletePojo">
+		<![CDATA[ 
+			SELECT sticky,a1,a2,a3,a4,a5,a6,a7,
+				a8,a9,a10,hostname
+			FROM complete 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.CompletePojo" resultType="com.striveh.callcenter.pojo.freeswitch.CompletePojo">
+		<![CDATA[ 
+			SELECT sticky,a1,a2,a3,a4,a5,a6,a7,
+				a8,a9,a10,hostname
+			FROM complete WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.CompletePojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO complete (
+			    sticky,a1,a2,a3,a4,a5,a6,a7,
+				a8,a9,a10,hostname
+			) VALUES (
+				#{sticky},#{a1},#{a2},#{a3},#{a4},#{a5},#{a6},#{a7},
+				#{a8},#{a9},#{a10},#{hostname}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.CompletePojo">
+		<![CDATA[ 
+			INSERT INTO complete (
+			    sticky,a1,a2,a3,a4,a5,a6,a7,
+				a8,a9,a10,hostname
+			) VALUES (
+				#{sticky},#{a1},#{a2},#{a3},#{a4},#{a5},#{a6},#{a7},
+				#{a8},#{a9},#{a10},#{hostname}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.CompletePojo">
+		<![CDATA[ UPDATE complete]]>
+		<set>
+	 		<if test="sticky != null"><![CDATA[ sticky = #{sticky},]]></if>
+	 		<if test="a1 != null and a1 != ''"><![CDATA[ a1 = #{a1},]]></if>
+	 		<if test="a2 != null and a2 != ''"><![CDATA[ a2 = #{a2},]]></if>
+	 		<if test="a3 != null and a3 != ''"><![CDATA[ a3 = #{a3},]]></if>
+	 		<if test="a4 != null and a4 != ''"><![CDATA[ a4 = #{a4},]]></if>
+	 		<if test="a5 != null and a5 != ''"><![CDATA[ a5 = #{a5},]]></if>
+	 		<if test="a6 != null and a6 != ''"><![CDATA[ a6 = #{a6},]]></if>
+	 		<if test="a7 != null and a7 != ''"><![CDATA[ a7 = #{a7},]]></if>
+	 		<if test="a8 != null and a8 != ''"><![CDATA[ a8 = #{a8},]]></if>
+	 		<if test="a9 != null and a9 != ''"><![CDATA[ a9 = #{a9},]]></if>
+	 		<if test="a10 != null and a10 != ''"><![CDATA[ a10 = #{a10},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.CompletePojo">
+		<![CDATA[ DELETE FROM complete where id = #{id} ]]>
+	</update>
+</mapper> 

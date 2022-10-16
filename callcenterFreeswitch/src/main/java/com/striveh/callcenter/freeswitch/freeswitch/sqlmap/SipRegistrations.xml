@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【sip_registrations 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.SipRegistrationsDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.SipRegistrationsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.SipRegistrationsPojo">
+		<![CDATA[ 
+			SELECT call_id,sip_user,sip_host,presence_hosts,contact,status,ping_status,ping_count,
+				ping_time,force_ping,rpid,expires,ping_expires,user_agent,server_user,server_host,
+				profile_name,hostname,network_ip,network_port,sip_username,sip_realm,mwi_user,mwi_host,
+				orig_server_host,orig_hostname,sub_host
+			FROM sip_registrations 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.SipRegistrationsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.SipRegistrationsPojo">
+		<![CDATA[ 
+			SELECT call_id,sip_user,sip_host,presence_hosts,contact,status,ping_status,ping_count,
+				ping_time,force_ping,rpid,expires,ping_expires,user_agent,server_user,server_host,
+				profile_name,hostname,network_ip,network_port,sip_username,sip_realm,mwi_user,mwi_host,
+				orig_server_host,orig_hostname,sub_host
+			FROM sip_registrations WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.SipRegistrationsPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO sip_registrations (
+			    call_id,sip_user,sip_host,presence_hosts,contact,status,ping_status,ping_count,
+				ping_time,force_ping,rpid,expires,ping_expires,user_agent,server_user,server_host,
+				profile_name,hostname,network_ip,network_port,sip_username,sip_realm,mwi_user,mwi_host,
+				orig_server_host,orig_hostname,sub_host
+			) VALUES (
+				#{callId},#{sipUser},#{sipHost},#{presenceHosts},#{contact},#{status},#{pingStatus},#{pingCount},
+				#{pingTime},#{forcePing},#{rpid},#{expires},#{pingExpires},#{userAgent},#{serverUser},#{serverHost},
+				#{profileName},#{hostname},#{networkIp},#{networkPort},#{sipUsername},#{sipRealm},#{mwiUser},#{mwiHost},
+				#{origServerHost},#{origHostname},#{subHost}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.SipRegistrationsPojo">
+		<![CDATA[ 
+			INSERT INTO sip_registrations (
+			    call_id,sip_user,sip_host,presence_hosts,contact,status,ping_status,ping_count,
+				ping_time,force_ping,rpid,expires,ping_expires,user_agent,server_user,server_host,
+				profile_name,hostname,network_ip,network_port,sip_username,sip_realm,mwi_user,mwi_host,
+				orig_server_host,orig_hostname,sub_host
+			) VALUES (
+				#{callId},#{sipUser},#{sipHost},#{presenceHosts},#{contact},#{status},#{pingStatus},#{pingCount},
+				#{pingTime},#{forcePing},#{rpid},#{expires},#{pingExpires},#{userAgent},#{serverUser},#{serverHost},
+				#{profileName},#{hostname},#{networkIp},#{networkPort},#{sipUsername},#{sipRealm},#{mwiUser},#{mwiHost},
+				#{origServerHost},#{origHostname},#{subHost}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.SipRegistrationsPojo">
+		<![CDATA[ UPDATE sip_registrations]]>
+		<set>
+	 		<if test="callId != null and callId != ''"><![CDATA[ call_id = #{callId},]]></if>
+	 		<if test="sipUser != null and sipUser != ''"><![CDATA[ sip_user = #{sipUser},]]></if>
+	 		<if test="sipHost != null and sipHost != ''"><![CDATA[ sip_host = #{sipHost},]]></if>
+	 		<if test="presenceHosts != null and presenceHosts != ''"><![CDATA[ presence_hosts = #{presenceHosts},]]></if>
+	 		<if test="contact != null and contact != ''"><![CDATA[ contact = #{contact},]]></if>
+	 		<if test="status != null and status != ''"><![CDATA[ status = #{status},]]></if>
+	 		<if test="pingStatus != null and pingStatus != ''"><![CDATA[ ping_status = #{pingStatus},]]></if>
+	 		<if test="pingCount != null"><![CDATA[ ping_count = #{pingCount},]]></if>
+	 		<if test="pingTime != null"><![CDATA[ ping_time = #{pingTime},]]></if>
+	 		<if test="forcePing != null"><![CDATA[ force_ping = #{forcePing},]]></if>
+	 		<if test="rpid != null and rpid != ''"><![CDATA[ rpid = #{rpid},]]></if>
+	 		<if test="expires != null"><![CDATA[ expires = #{expires},]]></if>
+	 		<if test="pingExpires != null"><![CDATA[ ping_expires = #{pingExpires},]]></if>
+	 		<if test="userAgent != null and userAgent != ''"><![CDATA[ user_agent = #{userAgent},]]></if>
+	 		<if test="serverUser != null and serverUser != ''"><![CDATA[ server_user = #{serverUser},]]></if>
+	 		<if test="serverHost != null and serverHost != ''"><![CDATA[ server_host = #{serverHost},]]></if>
+	 		<if test="profileName != null and profileName != ''"><![CDATA[ profile_name = #{profileName},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+	 		<if test="networkIp != null and networkIp != ''"><![CDATA[ network_ip = #{networkIp},]]></if>
+	 		<if test="networkPort != null and networkPort != ''"><![CDATA[ network_port = #{networkPort},]]></if>
+	 		<if test="sipUsername != null and sipUsername != ''"><![CDATA[ sip_username = #{sipUsername},]]></if>
+	 		<if test="sipRealm != null and sipRealm != ''"><![CDATA[ sip_realm = #{sipRealm},]]></if>
+	 		<if test="mwiUser != null and mwiUser != ''"><![CDATA[ mwi_user = #{mwiUser},]]></if>
+	 		<if test="mwiHost != null and mwiHost != ''"><![CDATA[ mwi_host = #{mwiHost},]]></if>
+	 		<if test="origServerHost != null and origServerHost != ''"><![CDATA[ orig_server_host = #{origServerHost},]]></if>
+	 		<if test="origHostname != null and origHostname != ''"><![CDATA[ orig_hostname = #{origHostname},]]></if>
+	 		<if test="subHost != null and subHost != ''"><![CDATA[ sub_host = #{subHost},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.SipRegistrationsPojo">
+		<![CDATA[ DELETE FROM sip_registrations where id = #{id} ]]>
+	</update>
+</mapper> 

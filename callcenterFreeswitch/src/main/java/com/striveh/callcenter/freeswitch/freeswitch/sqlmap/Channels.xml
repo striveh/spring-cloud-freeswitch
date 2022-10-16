@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【channels 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.ChannelsDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.ChannelsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.ChannelsPojo">
+		<![CDATA[ 
+			SELECT uuid,direction,created,created_epoch,name,state,cid_name,cid_num,
+				ip_addr,dest,application,application_data,dialplan,context,read_codec,read_rate,
+				read_bit_rate,write_codec,write_rate,write_bit_rate,secure,hostname,presence_id,presence_data,
+				accountcode,callstate,callee_name,callee_num,callee_direction,call_uuid,sent_callee_name,sent_callee_num,
+				initial_cid_name,initial_cid_num,initial_ip_addr,initial_dest,initial_dialplan,initial_context
+			FROM channels 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.ChannelsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.ChannelsPojo">
+		<![CDATA[ 
+			SELECT uuid,direction,created,created_epoch,name,state,cid_name,cid_num,
+				ip_addr,dest,application,application_data,dialplan,context,read_codec,read_rate,
+				read_bit_rate,write_codec,write_rate,write_bit_rate,secure,hostname,presence_id,presence_data,
+				accountcode,callstate,callee_name,callee_num,callee_direction,call_uuid,sent_callee_name,sent_callee_num,
+				initial_cid_name,initial_cid_num,initial_ip_addr,initial_dest,initial_dialplan,initial_context
+			FROM channels WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.ChannelsPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO channels (
+			    uuid,direction,created,created_epoch,name,state,cid_name,cid_num,
+				ip_addr,dest,application,application_data,dialplan,context,read_codec,read_rate,
+				read_bit_rate,write_codec,write_rate,write_bit_rate,secure,hostname,presence_id,presence_data,
+				accountcode,callstate,callee_name,callee_num,callee_direction,call_uuid,sent_callee_name,sent_callee_num,
+				initial_cid_name,initial_cid_num,initial_ip_addr,initial_dest,initial_dialplan,initial_context
+			) VALUES (
+				#{uuid},#{direction},#{created},#{createdEpoch},#{name},#{state},#{cidName},#{cidNum},
+				#{ipAddr},#{dest},#{application},#{applicationData},#{dialplan},#{context},#{readCodec},#{readRate},
+				#{readBitRate},#{writeCodec},#{writeRate},#{writeBitRate},#{secure},#{hostname},#{presenceId},#{presenceData},
+				#{accountcode},#{callstate},#{calleeName},#{calleeNum},#{calleeDirection},#{callUuid},#{sentCalleeName},#{sentCalleeNum},
+				#{initialCidName},#{initialCidNum},#{initialIpAddr},#{initialDest},#{initialDialplan},#{initialContext}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.ChannelsPojo">
+		<![CDATA[ 
+			INSERT INTO channels (
+			    uuid,direction,created,created_epoch,name,state,cid_name,cid_num,
+				ip_addr,dest,application,application_data,dialplan,context,read_codec,read_rate,
+				read_bit_rate,write_codec,write_rate,write_bit_rate,secure,hostname,presence_id,presence_data,
+				accountcode,callstate,callee_name,callee_num,callee_direction,call_uuid,sent_callee_name,sent_callee_num,
+				initial_cid_name,initial_cid_num,initial_ip_addr,initial_dest,initial_dialplan,initial_context
+			) VALUES (
+				#{uuid},#{direction},#{created},#{createdEpoch},#{name},#{state},#{cidName},#{cidNum},
+				#{ipAddr},#{dest},#{application},#{applicationData},#{dialplan},#{context},#{readCodec},#{readRate},
+				#{readBitRate},#{writeCodec},#{writeRate},#{writeBitRate},#{secure},#{hostname},#{presenceId},#{presenceData},
+				#{accountcode},#{callstate},#{calleeName},#{calleeNum},#{calleeDirection},#{callUuid},#{sentCalleeName},#{sentCalleeNum},
+				#{initialCidName},#{initialCidNum},#{initialIpAddr},#{initialDest},#{initialDialplan},#{initialContext}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.ChannelsPojo">
+		<![CDATA[ UPDATE channels]]>
+		<set>
+	 		<if test="uuid != null and uuid != ''"><![CDATA[ uuid = #{uuid},]]></if>
+	 		<if test="direction != null and direction != ''"><![CDATA[ direction = #{direction},]]></if>
+	 		<if test="created != null and created != ''"><![CDATA[ created = #{created},]]></if>
+	 		<if test="createdEpoch != null"><![CDATA[ created_epoch = #{createdEpoch},]]></if>
+	 		<if test="name != null and name != ''"><![CDATA[ name = #{name},]]></if>
+	 		<if test="state != null and state != ''"><![CDATA[ state = #{state},]]></if>
+	 		<if test="cidName != null and cidName != ''"><![CDATA[ cid_name = #{cidName},]]></if>
+	 		<if test="cidNum != null and cidNum != ''"><![CDATA[ cid_num = #{cidNum},]]></if>
+	 		<if test="ipAddr != null and ipAddr != ''"><![CDATA[ ip_addr = #{ipAddr},]]></if>
+	 		<if test="dest != null and dest != ''"><![CDATA[ dest = #{dest},]]></if>
+	 		<if test="application != null and application != ''"><![CDATA[ application = #{application},]]></if>
+	 		<if test="applicationData != null and applicationData != ''"><![CDATA[ application_data = #{applicationData},]]></if>
+	 		<if test="dialplan != null and dialplan != ''"><![CDATA[ dialplan = #{dialplan},]]></if>
+	 		<if test="context != null and context != ''"><![CDATA[ context = #{context},]]></if>
+	 		<if test="readCodec != null and readCodec != ''"><![CDATA[ read_codec = #{readCodec},]]></if>
+	 		<if test="readRate != null and readRate != ''"><![CDATA[ read_rate = #{readRate},]]></if>
+	 		<if test="readBitRate != null and readBitRate != ''"><![CDATA[ read_bit_rate = #{readBitRate},]]></if>
+	 		<if test="writeCodec != null and writeCodec != ''"><![CDATA[ write_codec = #{writeCodec},]]></if>
+	 		<if test="writeRate != null and writeRate != ''"><![CDATA[ write_rate = #{writeRate},]]></if>
+	 		<if test="writeBitRate != null and writeBitRate != ''"><![CDATA[ write_bit_rate = #{writeBitRate},]]></if>
+	 		<if test="secure != null and secure != ''"><![CDATA[ secure = #{secure},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+	 		<if test="presenceId != null and presenceId != ''"><![CDATA[ presence_id = #{presenceId},]]></if>
+	 		<if test="presenceData != null and presenceData != ''"><![CDATA[ presence_data = #{presenceData},]]></if>
+	 		<if test="accountcode != null and accountcode != ''"><![CDATA[ accountcode = #{accountcode},]]></if>
+	 		<if test="callstate != null and callstate != ''"><![CDATA[ callstate = #{callstate},]]></if>
+	 		<if test="calleeName != null and calleeName != ''"><![CDATA[ callee_name = #{calleeName},]]></if>
+	 		<if test="calleeNum != null and calleeNum != ''"><![CDATA[ callee_num = #{calleeNum},]]></if>
+	 		<if test="calleeDirection != null and calleeDirection != ''"><![CDATA[ callee_direction = #{calleeDirection},]]></if>
+	 		<if test="callUuid != null and callUuid != ''"><![CDATA[ call_uuid = #{callUuid},]]></if>
+	 		<if test="sentCalleeName != null and sentCalleeName != ''"><![CDATA[ sent_callee_name = #{sentCalleeName},]]></if>
+	 		<if test="sentCalleeNum != null and sentCalleeNum != ''"><![CDATA[ sent_callee_num = #{sentCalleeNum},]]></if>
+	 		<if test="initialCidName != null and initialCidName != ''"><![CDATA[ initial_cid_name = #{initialCidName},]]></if>
+	 		<if test="initialCidNum != null and initialCidNum != ''"><![CDATA[ initial_cid_num = #{initialCidNum},]]></if>
+	 		<if test="initialIpAddr != null and initialIpAddr != ''"><![CDATA[ initial_ip_addr = #{initialIpAddr},]]></if>
+	 		<if test="initialDest != null and initialDest != ''"><![CDATA[ initial_dest = #{initialDest},]]></if>
+	 		<if test="initialDialplan != null and initialDialplan != ''"><![CDATA[ initial_dialplan = #{initialDialplan},]]></if>
+	 		<if test="initialContext != null and initialContext != ''"><![CDATA[ initial_context = #{initialContext},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.ChannelsPojo">
+		<![CDATA[ DELETE FROM channels where id = #{id} ]]>
+	</update>
+</mapper> 

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【sip_dialogs 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.SipDialogsDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.SipDialogsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.SipDialogsPojo">
+		<![CDATA[ 
+			SELECT call_id,uuid,sip_to_user,sip_to_host,sip_from_user,sip_from_host,contact_user,contact_host,
+				state,direction,user_agent,profile_name,hostname,contact,presence_id,presence_data,
+				call_info,call_info_state,expires,status,rpid,sip_to_tag,sip_from_tag,rcd
+				
+			FROM sip_dialogs 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.SipDialogsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.SipDialogsPojo">
+		<![CDATA[ 
+			SELECT call_id,uuid,sip_to_user,sip_to_host,sip_from_user,sip_from_host,contact_user,contact_host,
+				state,direction,user_agent,profile_name,hostname,contact,presence_id,presence_data,
+				call_info,call_info_state,expires,status,rpid,sip_to_tag,sip_from_tag,rcd
+				
+			FROM sip_dialogs WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.SipDialogsPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO sip_dialogs (
+			    call_id,uuid,sip_to_user,sip_to_host,sip_from_user,sip_from_host,contact_user,contact_host,
+				state,direction,user_agent,profile_name,hostname,contact,presence_id,presence_data,
+				call_info,call_info_state,expires,status,rpid,sip_to_tag,sip_from_tag,rcd
+				
+			) VALUES (
+				#{callId},#{uuid},#{sipToUser},#{sipToHost},#{sipFromUser},#{sipFromHost},#{contactUser},#{contactHost},
+				#{state},#{direction},#{userAgent},#{profileName},#{hostname},#{contact},#{presenceId},#{presenceData},
+				#{callInfo},#{callInfoState},#{expires},#{status},#{rpid},#{sipToTag},#{sipFromTag},#{rcd}
+				
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.SipDialogsPojo">
+		<![CDATA[ 
+			INSERT INTO sip_dialogs (
+			    call_id,uuid,sip_to_user,sip_to_host,sip_from_user,sip_from_host,contact_user,contact_host,
+				state,direction,user_agent,profile_name,hostname,contact,presence_id,presence_data,
+				call_info,call_info_state,expires,status,rpid,sip_to_tag,sip_from_tag,rcd
+				
+			) VALUES (
+				#{callId},#{uuid},#{sipToUser},#{sipToHost},#{sipFromUser},#{sipFromHost},#{contactUser},#{contactHost},
+				#{state},#{direction},#{userAgent},#{profileName},#{hostname},#{contact},#{presenceId},#{presenceData},
+				#{callInfo},#{callInfoState},#{expires},#{status},#{rpid},#{sipToTag},#{sipFromTag},#{rcd}
+				
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.SipDialogsPojo">
+		<![CDATA[ UPDATE sip_dialogs]]>
+		<set>
+	 		<if test="callId != null and callId != ''"><![CDATA[ call_id = #{callId},]]></if>
+	 		<if test="uuid != null and uuid != ''"><![CDATA[ uuid = #{uuid},]]></if>
+	 		<if test="sipToUser != null and sipToUser != ''"><![CDATA[ sip_to_user = #{sipToUser},]]></if>
+	 		<if test="sipToHost != null and sipToHost != ''"><![CDATA[ sip_to_host = #{sipToHost},]]></if>
+	 		<if test="sipFromUser != null and sipFromUser != ''"><![CDATA[ sip_from_user = #{sipFromUser},]]></if>
+	 		<if test="sipFromHost != null and sipFromHost != ''"><![CDATA[ sip_from_host = #{sipFromHost},]]></if>
+	 		<if test="contactUser != null and contactUser != ''"><![CDATA[ contact_user = #{contactUser},]]></if>
+	 		<if test="contactHost != null and contactHost != ''"><![CDATA[ contact_host = #{contactHost},]]></if>
+	 		<if test="state != null and state != ''"><![CDATA[ state = #{state},]]></if>
+	 		<if test="direction != null and direction != ''"><![CDATA[ direction = #{direction},]]></if>
+	 		<if test="userAgent != null and userAgent != ''"><![CDATA[ user_agent = #{userAgent},]]></if>
+	 		<if test="profileName != null and profileName != ''"><![CDATA[ profile_name = #{profileName},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+	 		<if test="contact != null and contact != ''"><![CDATA[ contact = #{contact},]]></if>
+	 		<if test="presenceId != null and presenceId != ''"><![CDATA[ presence_id = #{presenceId},]]></if>
+	 		<if test="presenceData != null and presenceData != ''"><![CDATA[ presence_data = #{presenceData},]]></if>
+	 		<if test="callInfo != null and callInfo != ''"><![CDATA[ call_info = #{callInfo},]]></if>
+	 		<if test="callInfoState != null and callInfoState != ''"><![CDATA[ call_info_state = #{callInfoState},]]></if>
+	 		<if test="expires != null"><![CDATA[ expires = #{expires},]]></if>
+	 		<if test="status != null and status != ''"><![CDATA[ status = #{status},]]></if>
+	 		<if test="rpid != null and rpid != ''"><![CDATA[ rpid = #{rpid},]]></if>
+	 		<if test="sipToTag != null and sipToTag != ''"><![CDATA[ sip_to_tag = #{sipToTag},]]></if>
+	 		<if test="sipFromTag != null and sipFromTag != ''"><![CDATA[ sip_from_tag = #{sipFromTag},]]></if>
+	 		<if test="rcd != null"><![CDATA[ rcd = #{rcd},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.SipDialogsPojo">
+		<![CDATA[ DELETE FROM sip_dialogs where id = #{id} ]]>
+	</update>
+</mapper> 

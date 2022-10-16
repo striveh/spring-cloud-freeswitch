@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【callProject 呼叫项目表】sql -->
+<mapper namespace="com.striveh.callcenter.server.callcenter.dao.CallProjectDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.callcenter.CallProjectPojo" resultType="com.striveh.callcenter.pojo.callcenter.CallProjectPojo">
+		<![CDATA[ 
+			SELECT id,projectCode,seats,certificate,extNumInterval,addTime,updateTime,status,freeswitchId
+				
+			FROM callProject 
+		]]>
+		<where>
+			<if test="status != null"> and <![CDATA[ status = #{status}]]></if>
+			<if test="freeswitchId != null"> and <![CDATA[ freeswitchId = #{freeswitchId}]]></if>
+		</where>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.callcenter.CallProjectPojo" resultType="com.striveh.callcenter.pojo.callcenter.CallProjectPojo">
+		<![CDATA[ 
+			SELECT id,projectCode,seats,certificate,extNumInterval,addTime,updateTime,status,freeswitchId
+				
+			FROM callProject
+		]]>
+		<where>
+			<choose>
+				<when test="id !=null"> id = #{id}</when>
+				<when test="certificate != null and certificate != ''"> certificate=#{certificate} </when>
+				<when test="projectCode != null and projectCode != ''"> projectCode=#{projectCode} </when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.callcenter.CallProjectPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO callProject (
+			    id,projectCode,seats,certificate,extNumInterval,addTime,updateTime,status,freeswitchId
+				
+			) VALUES (
+				#{id},#{projectCode},#{seats},#{certificate},#{extNumInterval},#{addTime},#{updateTime},#{status},#{freeswitchId}
+				
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.callcenter.CallProjectPojo">
+		<![CDATA[ 
+			INSERT INTO callProject (
+			    id,projectCode,seats,certificate,extNumInterval,addTime,updateTime,status,freeswitchId
+				
+			) VALUES (
+				#{id},#{projectCode},#{seats},#{certificate},#{extNumInterval},#{addTime},#{updateTime},#{status},#{freeswitchId}
+				
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.callcenter.CallProjectPojo">
+		<![CDATA[ UPDATE callProject]]>
+		<set>
+	 		<if test="id != null"><![CDATA[ id = #{id},]]></if>
+	 		<if test="projectCode != null and projectCode != ''"><![CDATA[ projectCode = #{projectCode},]]></if>
+	 		<if test="seats != null"><![CDATA[ seats = #{seats},]]></if>
+	 		<if test="certificate != null and certificate != ''"><![CDATA[ certificate = #{certificate},]]></if>
+	 		<if test="extNumInterval != null and extNumInterval != ''"><![CDATA[ extNumInterval = #{extNumInterval},]]></if>
+	 		<if test="addTime != null"><![CDATA[ addTime = #{addTime},]]></if>
+	 		<if test="updateTime != null"><![CDATA[ updateTime = #{updateTime},]]></if>
+	 		<if test="status != null"><![CDATA[ status = #{status},]]></if>
+	 		<if test="freeswitchId != null"><![CDATA[ freeswitchId = #{freeswitchId},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.callcenter.CallProjectPojo">
+		<![CDATA[ DELETE FROM callProject where id = #{id} ]]>
+	</update>
+</mapper> 

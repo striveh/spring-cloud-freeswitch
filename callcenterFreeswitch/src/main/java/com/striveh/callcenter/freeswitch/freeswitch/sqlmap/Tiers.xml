@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【tiers 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.TiersDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.TiersPojo" resultType="com.striveh.callcenter.pojo.freeswitch.TiersPojo">
+		<![CDATA[ 
+			SELECT queue,agent,state,level,position
+			FROM tiers 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.TiersPojo" resultType="com.striveh.callcenter.pojo.freeswitch.TiersPojo">
+		<![CDATA[ 
+			SELECT queue,agent,state,level,position
+			FROM tiers WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.TiersPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO tiers (
+			    queue,agent,state,level,position
+			) VALUES (
+				#{queue},#{agent},#{state},#{level},#{position}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.TiersPojo">
+		<![CDATA[ 
+			INSERT INTO tiers (
+			    queue,agent,state,level,position
+			) VALUES (
+				#{queue},#{agent},#{state},#{level},#{position}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.TiersPojo">
+		<![CDATA[ UPDATE tiers]]>
+		<set>
+	 		<if test="queue != null and queue != ''"><![CDATA[ queue = #{queue},]]></if>
+	 		<if test="agent != null and agent != ''"><![CDATA[ agent = #{agent},]]></if>
+	 		<if test="state != null and state != ''"><![CDATA[ state = #{state},]]></if>
+	 		<if test="level != null"><![CDATA[ level = #{level},]]></if>
+	 		<if test="position != null"><![CDATA[ position = #{position},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.TiersPojo">
+		<![CDATA[ DELETE FROM tiers where id = #{id} ]]>
+	</update>
+</mapper> 

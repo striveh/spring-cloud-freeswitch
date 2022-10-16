@@ -1,0 +1,4 @@
+<configuration name="fifo.conf" description="FIFO Configuration">
+  <fifos>
+  </fifos>
+</configuration>

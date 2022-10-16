@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>callcenterParent</artifactId>
+		<groupId>com.striveh.callcenter</groupId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../callcenterParent/pom.xml</relativePath>
+	</parent>
+	<artifactId>callcenterCallList</artifactId>
+	<packaging>jar</packaging>
+	<name>callcenterCallList</name>
+	<description>呼叫列表模块</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.striveh.callcenter</groupId>
+			<artifactId>callcenterPojo</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.striveh.callcenter</groupId>
+			<artifactId>callcenterCommon</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.striveh.callcenter</groupId>
+			<artifactId>callcenterFeignClient</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<!--打包必须，不能放parent中，该插件会将项目打成可执行jar，common等非可执行jar不能依赖该插件-->
+	<build>
+        <finalName>callcenterCallList</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

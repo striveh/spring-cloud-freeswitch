@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【recovery 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.RecoveryDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.RecoveryPojo" resultType="com.striveh.callcenter.pojo.freeswitch.RecoveryPojo">
+		<![CDATA[ 
+			SELECT runtime_uuid,technology,profile_name,hostname,uuid,metadata
+			FROM recovery 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.RecoveryPojo" resultType="com.striveh.callcenter.pojo.freeswitch.RecoveryPojo">
+		<![CDATA[ 
+			SELECT runtime_uuid,technology,profile_name,hostname,uuid,metadata
+			FROM recovery WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.RecoveryPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO recovery (
+			    runtime_uuid,technology,profile_name,hostname,uuid,metadata
+			) VALUES (
+				#{runtimeUuid},#{technology},#{profileName},#{hostname},#{uuid},#{metadata}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.RecoveryPojo">
+		<![CDATA[ 
+			INSERT INTO recovery (
+			    runtime_uuid,technology,profile_name,hostname,uuid,metadata
+			) VALUES (
+				#{runtimeUuid},#{technology},#{profileName},#{hostname},#{uuid},#{metadata}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.RecoveryPojo">
+		<![CDATA[ UPDATE recovery]]>
+		<set>
+	 		<if test="runtimeUuid != null and runtimeUuid != ''"><![CDATA[ runtime_uuid = #{runtimeUuid},]]></if>
+	 		<if test="technology != null and technology != ''"><![CDATA[ technology = #{technology},]]></if>
+	 		<if test="profileName != null and profileName != ''"><![CDATA[ profile_name = #{profileName},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+	 		<if test="uuid != null and uuid != ''"><![CDATA[ uuid = #{uuid},]]></if>
+	 		<if test="metadata != null and metadata != ''"><![CDATA[ metadata = #{metadata},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.RecoveryPojo">
+		<![CDATA[ DELETE FROM recovery where id = #{id} ]]>
+	</update>
+</mapper> 

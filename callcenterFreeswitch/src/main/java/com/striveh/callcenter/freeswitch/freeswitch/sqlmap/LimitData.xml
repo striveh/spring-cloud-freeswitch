@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【limit_data 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.LimitDataDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.LimitDataPojo" resultType="com.striveh.callcenter.pojo.freeswitch.LimitDataPojo">
+		<![CDATA[ 
+			SELECT hostname,realm,id,uuid
+			FROM limit_data 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.LimitDataPojo" resultType="com.striveh.callcenter.pojo.freeswitch.LimitDataPojo">
+		<![CDATA[ 
+			SELECT hostname,realm,id,uuid
+			FROM limit_data WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.LimitDataPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO limit_data (
+			    hostname,realm,id,uuid
+			) VALUES (
+				#{hostname},#{realm},#{id},#{uuid}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.LimitDataPojo">
+		<![CDATA[ 
+			INSERT INTO limit_data (
+			    hostname,realm,id,uuid
+			) VALUES (
+				#{hostname},#{realm},#{id},#{uuid}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.LimitDataPojo">
+		<![CDATA[ UPDATE limit_data]]>
+		<set>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+	 		<if test="realm != null and realm != ''"><![CDATA[ realm = #{realm},]]></if>
+	 		<if test="id != null and id != ''"><![CDATA[ id = #{id},]]></if>
+	 		<if test="uuid != null and uuid != ''"><![CDATA[ uuid = #{uuid},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.LimitDataPojo">
+		<![CDATA[ DELETE FROM limit_data where id = #{id} ]]>
+	</update>
+</mapper> 

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【registrations 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.RegistrationsDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.RegistrationsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.RegistrationsPojo">
+		<![CDATA[ 
+			SELECT reg_user,realm,token,url,expires,network_ip,network_port,network_proto,
+				hostname,metadata
+			FROM registrations 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.RegistrationsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.RegistrationsPojo">
+		<![CDATA[ 
+			SELECT reg_user,realm,token,url,expires,network_ip,network_port,network_proto,
+				hostname,metadata
+			FROM registrations WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.RegistrationsPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO registrations (
+			    reg_user,realm,token,url,expires,network_ip,network_port,network_proto,
+				hostname,metadata
+			) VALUES (
+				#{regUser},#{realm},#{token},#{url},#{expires},#{networkIp},#{networkPort},#{networkProto},
+				#{hostname},#{metadata}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.RegistrationsPojo">
+		<![CDATA[ 
+			INSERT INTO registrations (
+			    reg_user,realm,token,url,expires,network_ip,network_port,network_proto,
+				hostname,metadata
+			) VALUES (
+				#{regUser},#{realm},#{token},#{url},#{expires},#{networkIp},#{networkPort},#{networkProto},
+				#{hostname},#{metadata}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.RegistrationsPojo">
+		<![CDATA[ UPDATE registrations]]>
+		<set>
+	 		<if test="regUser != null and regUser != ''"><![CDATA[ reg_user = #{regUser},]]></if>
+	 		<if test="realm != null and realm != ''"><![CDATA[ realm = #{realm},]]></if>
+	 		<if test="token != null and token != ''"><![CDATA[ token = #{token},]]></if>
+	 		<if test="url != null and url != ''"><![CDATA[ url = #{url},]]></if>
+	 		<if test="expires != null"><![CDATA[ expires = #{expires},]]></if>
+	 		<if test="networkIp != null and networkIp != ''"><![CDATA[ network_ip = #{networkIp},]]></if>
+	 		<if test="networkPort != null and networkPort != ''"><![CDATA[ network_port = #{networkPort},]]></if>
+	 		<if test="networkProto != null and networkProto != ''"><![CDATA[ network_proto = #{networkProto},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+	 		<if test="metadata != null and metadata != ''"><![CDATA[ metadata = #{metadata},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.RegistrationsPojo">
+		<![CDATA[ DELETE FROM registrations where id = #{id} ]]>
+	</update>
+</mapper> 

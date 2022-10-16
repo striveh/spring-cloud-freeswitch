@@ -1,0 +1,39 @@
+<include>
+  <extension name="public_did">
+<!--    <condition field="destination_number" expression="^(5551212)$">-->
+<!--      &lt;!&ndash;-->
+<!--	  If you're hosting multiple domains you will want to set the-->
+<!--	  target_domain on these calls so they hit the proper domain after you-->
+<!--	  transfer the caller into the default context. -->
+<!--	  -->
+<!--	  $${domain} is the default domain set from vars.xml but you can set it-->
+<!--	  to any domain you have setup in your user directory.-->
+
+<!--      &ndash;&gt; -->
+<!--      <action application="set" data="domain_name=$${domain}"/>-->
+<!--      &lt;!&ndash; This example maps the DID 5551212 to ring 1000 in the default context &ndash;&gt;-->
+<!--      <action application="transfer" data="1000 XML default"/>-->
+<!--    </condition>-->
+
+    <condition field="destination_number" expression="^(1[3-9][0-9]{9})$">
+      <!--
+          If you're hosting multiple domains you will want to set the
+          target_domain on these calls so they hit the proper domain after you
+          transfer the caller into the default context.
+
+          $${domain} is the default domain set from vars.xml but you can set it
+          to any domain you have setup in your user directory.
+
+      -->
+      <action application="set" data="call_in=true"/>
+      <action application="set" data="callcenter_task_code=37814"/>
+      <action application="set" data="callcenter_project_code=11660"/>
+      <action application="set" data="domain_name=$${domain}"/>
+      <!-- This example maps the DID 5551212 to ring 1000 in the default context -->
+      <action application="set" data="fifo_music=/usr/local/freeswitch/share/freeswitch/sounds/1670.mp3"/>
+      <action application="answer"/>
+
+      <action application="fifo" data="11660 in"/>
+    </condition>
+  </extension>
+</include>

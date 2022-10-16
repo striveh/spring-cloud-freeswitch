@@ -1,0 +1,91 @@
+spring:
+  application:
+    name: callcenter
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+  redis:
+    host: ${common.spring.redis.host}
+    password: ${common.spring.redis.password}
+    database: 14
+server:
+  port: 9091
+  tomcat:
+    max-connections: 100000
+    max-threads: 1000
+eureka:
+    client:
+        service-url:
+            defaultZone: ${common.eurekaServer.zoneUrl}
+    instance:
+        prefer-ip-address: ${common.eureka.instance.prefer-ip-address}
+        instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+masterDB:
+    dbCfg:
+        druidDBCfg:
+            driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+            url: jdbc:log4jdbc:mysql://${common.callcenterDB.url}:${common.callcenterDB.port}/${common.callcenterDB.dbName}?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+            username: ${common.callcenterDB.userName}
+            password: ${common.callcenterDB.password}
+            initialSize: 1 # 启动时初始化的创建的连接个数
+            maxActive: 50 #可以在池中保持空闲的最大连接数，超出设置值之外的空闲连接将被回收，如设置为-1不限制
+            minIdle: 5 #可以在池中保持空闲的最小连接数，超出设置值之外的空闲连接将被创建，如设置为0不创建
+            maxWait: 10000 # 如果没有可用连接,在抛出异常前等待的一个连接被归还的最大毫秒数，设置为-1， 设为-1无限制
+            removeAbandonedTimeout: 180 # 已抛弃的连接可以被移除的超时时间，单位为秒
+            removeAbandoned: true #超过removeAbandonedTimeout时间后，进行已抛弃的回收
+            timeBetweenEvictionRunsMillis: 60000 #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            minEvictableIdleTimeMillis: 300000  #配置一个连接在池中最小生存的时间，单位是毫秒
+            validationQuery: SELECT 1 FROM DUAL  #用来检测连接是否有效的sql，要求是一个查询语句
+            testWhileIdle: true  #申请连接的时候检测
+            testOnBorrow: false #申请连接时执行validationQuery检测连接是否有效，配置为true会降低性能
+            testOnReturn: false #归还连接时执行validationQuery检测连接是否有效，配置为true会降低性能
+            poolPreparedStatements: true #打开PSCache，并且指定每个连接上PSCache的大小
+            maxOpenPreparedStatements: 50 #打开PSCache，并且指定每个连接上PSCache的大小
+            filters: stat # 属性类型是字符串，常用插件有:监控统计filter:stat、 日志filter:log4j、 防御SQL注入filter:wall
+        txAttributes: #参考TransactionAttributeEditor.setAsText()
+                "add*": "PROPAGATION_REQUIRED,-Exception"
+                "insert*": "PROPAGATION_REQUIRED,-Exception"
+                "save*": "PROPAGATION_REQUIRED,-Exception"
+                "update*": "PROPAGATION_REQUIRED,-Exception"
+                "delete*": "PROPAGATION_REQUIRED,-Exception"
+                "*": "readOnly"
+        manageMethod: "execution(* com.striveh.callcenter.server.*.service.*.*(..))"
+        configLocation: classpath:config/SqlMapConfig.xml
+        mapperLocations: classpath*:com/striveh/callcenter/server/*/sqlmap/*.xml
+    redisCfg:
+        redisPoolCfg:
+            minIdle: 1 #可以在池中保持空闲的最小连接数
+            maxIdle: 10 #可以在池中保持空闲的最大连接数
+            maxTotal: 50 #最大连接数
+            maxWaitMillis: 60000 # 如果没有可用连接,在抛出异常前等待的一个连接被归还的最大毫秒数，设置为-1， 设为-1无限制
+            testWhileIdle: false # 申请连接的时候检测
+            testOnCreate: false
+            testOnBorrow: false # 申请连接时执行validationQuery检测连接是否有效，配置为true会降低性能
+            testOnReturn: false # 归还连接时执行validationQuery检测连接是否有效，配置为true会降低性能
+        redisShardCfg:
+            connectionTimeout: 60000
+            soTimeout: 60000
+        hostsCfg:
+            - redis://${common.jedis.hosts.host_1}
+
+logging:
+  level:
+    link: DEBUG
+
+websocket:
+  allow-origins:
+    - "*"
+  broker:
+    #    使用 simpleBroker 则不支持 WebSocket 集群
+    use-simple-broker: true
+#    若 use-simple-broker 为 false, 则以下配置必填
+#         username: test¬
+#         password: Passw0rd
+#         virtualHost: "/stomp"
+#         addresses:
+#          - 127.0.0.1:61613
+#          - 127.0.0.1:61613

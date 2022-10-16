@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【nat 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.NatDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.NatPojo" resultType="com.striveh.callcenter.pojo.freeswitch.NatPojo">
+		<![CDATA[ 
+			SELECT sticky,port,proto,hostname
+			FROM nat 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.NatPojo" resultType="com.striveh.callcenter.pojo.freeswitch.NatPojo">
+		<![CDATA[ 
+			SELECT sticky,port,proto,hostname
+			FROM nat WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.NatPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO nat (
+			    sticky,port,proto,hostname
+			) VALUES (
+				#{sticky},#{port},#{proto},#{hostname}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.NatPojo">
+		<![CDATA[ 
+			INSERT INTO nat (
+			    sticky,port,proto,hostname
+			) VALUES (
+				#{sticky},#{port},#{proto},#{hostname}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.NatPojo">
+		<![CDATA[ UPDATE nat]]>
+		<set>
+	 		<if test="sticky != null"><![CDATA[ sticky = #{sticky},]]></if>
+	 		<if test="port != null"><![CDATA[ port = #{port},]]></if>
+	 		<if test="proto != null"><![CDATA[ proto = #{proto},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.NatPojo">
+		<![CDATA[ DELETE FROM nat where id = #{id} ]]>
+	</update>
+</mapper> 

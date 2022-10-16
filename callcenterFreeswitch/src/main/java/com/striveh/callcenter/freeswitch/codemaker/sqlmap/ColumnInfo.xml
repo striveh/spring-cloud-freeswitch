@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.striveh.callcenter.freeswitch.codemaker.dao.CodeMakerDao">
+	<select id="selectList" parameterType="com.striveh.callcenter.freeswitch.codemaker.po.ColumnInfo" resultType="com.striveh.callcenter.freeswitch.codemaker.po.ColumnInfo">
+		<![CDATA[ 
+			select t.TABLE_SCHEMA db,t.TABLE_NAME tableName,t.TABLE_COMMENT tableComment,c.COLUMN_NAME columnName,
+				c.DATA_TYPE dataType,IFNULL(c.CHARACTER_MAXIMUM_LENGTH,c.NUMERIC_PRECISION) colLength,
+				c.NUMERIC_SCALE scale,  c.COLUMN_COMMENT columnComment
+			from information_schema.TABLES  t
+			left join information_schema.COLUMNS c on t.TABLE_SCHEMA=c.TABLE_SCHEMA and t.TABLE_NAME=c.TABLE_NAME
+			where t.TABLE_SCHEMA = #{db} AND t.TABLE_NAME = #{tableName}
+		]]>
+	</select>
+</mapper> 

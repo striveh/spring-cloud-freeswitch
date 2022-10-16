@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【calls 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.CallsDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.CallsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.CallsPojo">
+		<![CDATA[ 
+			SELECT call_uuid,call_created,call_created_epoch,caller_uuid,callee_uuid,hostname
+			FROM calls 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.CallsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.CallsPojo">
+		<![CDATA[ 
+			SELECT call_uuid,call_created,call_created_epoch,caller_uuid,callee_uuid,hostname
+			FROM calls WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.CallsPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO calls (
+			    call_uuid,call_created,call_created_epoch,caller_uuid,callee_uuid,hostname
+			) VALUES (
+				#{callUuid},#{callCreated},#{callCreatedEpoch},#{callerUuid},#{calleeUuid},#{hostname}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.CallsPojo">
+		<![CDATA[ 
+			INSERT INTO calls (
+			    call_uuid,call_created,call_created_epoch,caller_uuid,callee_uuid,hostname
+			) VALUES (
+				#{callUuid},#{callCreated},#{callCreatedEpoch},#{callerUuid},#{calleeUuid},#{hostname}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.CallsPojo">
+		<![CDATA[ UPDATE calls]]>
+		<set>
+	 		<if test="callUuid != null and callUuid != ''"><![CDATA[ call_uuid = #{callUuid},]]></if>
+	 		<if test="callCreated != null and callCreated != ''"><![CDATA[ call_created = #{callCreated},]]></if>
+	 		<if test="callCreatedEpoch != null"><![CDATA[ call_created_epoch = #{callCreatedEpoch},]]></if>
+	 		<if test="callerUuid != null and callerUuid != ''"><![CDATA[ caller_uuid = #{callerUuid},]]></if>
+	 		<if test="calleeUuid != null and calleeUuid != ''"><![CDATA[ callee_uuid = #{calleeUuid},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.CallsPojo">
+		<![CDATA[ DELETE FROM calls where id = #{id} ]]>
+	</update>
+</mapper> 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【sip_authentication 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.SipAuthenticationDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.SipAuthenticationPojo" resultType="com.striveh.callcenter.pojo.freeswitch.SipAuthenticationPojo">
+		<![CDATA[ 
+			SELECT nonce,expires,profile_name,hostname,last_nc
+			FROM sip_authentication 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.SipAuthenticationPojo" resultType="com.striveh.callcenter.pojo.freeswitch.SipAuthenticationPojo">
+		<![CDATA[ 
+			SELECT nonce,expires,profile_name,hostname,last_nc
+			FROM sip_authentication WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.SipAuthenticationPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO sip_authentication (
+			    nonce,expires,profile_name,hostname,last_nc
+			) VALUES (
+				#{nonce},#{expires},#{profileName},#{hostname},#{lastNc}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.SipAuthenticationPojo">
+		<![CDATA[ 
+			INSERT INTO sip_authentication (
+			    nonce,expires,profile_name,hostname,last_nc
+			) VALUES (
+				#{nonce},#{expires},#{profileName},#{hostname},#{lastNc}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.SipAuthenticationPojo">
+		<![CDATA[ UPDATE sip_authentication]]>
+		<set>
+	 		<if test="nonce != null and nonce != ''"><![CDATA[ nonce = #{nonce},]]></if>
+	 		<if test="expires != null"><![CDATA[ expires = #{expires},]]></if>
+	 		<if test="profileName != null and profileName != ''"><![CDATA[ profile_name = #{profileName},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+	 		<if test="lastNc != null"><![CDATA[ last_nc = #{lastNc},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.SipAuthenticationPojo">
+		<![CDATA[ DELETE FROM sip_authentication where id = #{id} ]]>
+	</update>
+</mapper> 

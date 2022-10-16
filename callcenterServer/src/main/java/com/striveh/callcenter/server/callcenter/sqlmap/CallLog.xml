@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【callLog 呼叫日志表】sql -->
+<mapper namespace="com.striveh.callcenter.server.callcenter.dao.CallLogDao">
+	<!-- ==============================非基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectListByCalled" parameterType="com.striveh.callcenter.pojo.callcenter.CallLogPojo" resultType="com.striveh.callcenter.pojo.callcenter.CallLogPojo">
+		<![CDATA[
+			SELECT id,callUUID,callerIdNumber,destinationNumber,result,recordFile,startTimestamp,endTimestamp,hangupCase,evaluation,
+				duration,addTime,updateTime,resultDetail,projectCode,callTaskCode,gwCode,recordFileQiniu,billsec,priceCal,priceRule
+			FROM callLog where resultDetail <>'99999'
+		]]>
+		<if test="projectCode != null and projectCode != ''"> and <![CDATA[ projectCode = #{projectCode}]]></if>
+		<if test="callTaskCode != null and callTaskCode != ''"> and <![CDATA[ callTaskCode = #{callTaskCode}]]></if>
+		<if test="beginTime != null and endTime != null and queryTimeType==2"> and <![CDATA[ endTimestamp >= #{beginTime} and endTimestamp < #{endTime}]]></if>
+		<if test="beginTime != null and endTime != null and queryTimeType==1"> and <![CDATA[ startTimestamp >= #{beginTime} and startTimestamp < #{endTime}]]></if>
+	</select>
+	<!--获取执行中的列表 -->
+	<select id="selectListByCalling" parameterType="com.striveh.callcenter.pojo.callcenter.CallLogPojo" resultType="com.striveh.callcenter.pojo.callcenter.CallLogPojo">
+		<![CDATA[
+			SELECT id,callUUID,callerIdNumber,destinationNumber,result,recordFile,startTimestamp,endTimestamp,hangupCase,evaluation,
+				duration,addTime,updateTime,resultDetail,projectCode,callTaskCode,gwCode,recordFileQiniu,billsec,priceCal,priceRule
+			FROM callLog where result is null and callTaskCode=#{callTaskCode} and startTimestamp < #{startTimestamp}
+		]]>
+	</select>
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.callcenter.CallLogPojo" resultType="com.striveh.callcenter.pojo.callcenter.CallLogPojo">
+		<![CDATA[ 
+			SELECT id,callUUID,callerIdNumber,destinationNumber,result,recordFile,startTimestamp,endTimestamp,hangupCase,evaluation,
+				duration,addTime,updateTime,resultDetail,projectCode,callTaskCode,gwCode,recordFileQiniu,billsec,priceCal,priceRule
+			FROM callLog where (hangupCase<>'return_visit' or hangupCase is null)
+		]]>
+		<if test="resultDetails != null"> and resultDetail in
+			<foreach collection="resultDetails" item="resultDetail" index="index" open="(" close=")" separator=",">#{resultDetail}</foreach>
+		</if>
+		<if test="results != null"> and result in
+			<foreach collection="results" item="result" index="index" open="(" close=")" separator=",">#{result}</foreach>
+		</if>
+		<if test="resultDetail != null and resultDetail != ''"> and <![CDATA[ resultDetail =#{resultDetail}]]></if>
+		<if test="result != null and result != ''"> and <![CDATA[ result = #{result}]]></if>
+		<if test="projectCode != null and projectCode != ''"> and <![CDATA[ projectCode = #{projectCode}]]></if>
+		<if test="callTaskCode != null and callTaskCode != ''"> and <![CDATA[ callTaskCode = #{callTaskCode}]]></if>
+		<if test="recallLastId != null and recallLastId != ''"> and <![CDATA[ id <= #{recallLastId}]]></if>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.callcenter.CallLogPojo" resultType="com.striveh.callcenter.pojo.callcenter.CallLogPojo">
+		<![CDATA[ 
+			SELECT id,callUUID,callerIdNumber,destinationNumber,result,recordFile,startTimestamp,endTimestamp,hangupCase,evaluation,
+				duration,addTime,updateTime,resultDetail,projectCode,callTaskCode,gwCode,recordFileQiniu,billsec,priceCal,priceRule
+			FROM callLog
+		]]>
+		<where>
+			<choose>
+				<when test="id !=null"> id = #{id}</when>
+				<when test="callUUID != null"> callUUID=#{callUUID}</when>
+				<when test="destinationNumber != null and callTaskCode != null"> destinationNumber=#{destinationNumber} and callTaskCode=#{callTaskCode} order by id desc limit 1</when>
+				<when test="destinationNumber != null and callerIdNumber != null and endTimestamp != null"> destinationNumber=#{destinationNumber} and callerIdNumber=#{callerIdNumber} and endTimestamp > #{endTimestamp} order by id desc limit 1</when>
+				<when test="destinationNumber != null"> destinationNumber=#{destinationNumber} order by id desc limit 1</when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.callcenter.CallLogPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO callLog (
+			    id,callUUID,callerIdNumber,destinationNumber,result,recordFile,startTimestamp,endTimestamp,hangupCase,
+				duration,addTime,updateTime,resultDetail,projectCode,callTaskCode,gwCode,recordFileQiniu,billsec,priceCal,priceRule
+			) VALUES (
+				#{id},#{callUUID},#{callerIdNumber},#{destinationNumber},#{result},#{recordFile},#{startTimestamp},#{endTimestamp},#{hangupCase},
+				#{duration},#{addTime},#{updateTime},#{resultDetail},#{projectCode},#{callTaskCode},#{gwCode},#{recordFileQiniu},#{billsec},#{priceCal},#{priceRule}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.callcenter.CallLogPojo">
+		<![CDATA[ 
+			INSERT INTO callLog (
+			    id,callUUID,callerIdNumber,destinationNumber,result,recordFile,startTimestamp,endTimestamp,hangupCase,
+				duration,addTime,updateTime,resultDetail,projectCode,callTaskCode,gwCode,recordFileQiniu,billsec,priceCal,priceRule
+			) VALUES (
+				#{id},#{callUUID},#{callerIdNumber},#{destinationNumber},#{result},#{recordFile},#{startTimestamp},#{endTimestamp},#{hangupCase},
+				#{duration},#{addTime},#{updateTime},#{resultDetail},#{projectCode},#{callTaskCode},#{gwCode},#{recordFileQiniu},#{billsec},#{priceCal},#{priceRule}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.callcenter.CallLogPojo">
+		<![CDATA[ UPDATE callLog]]>
+		<set>
+	 		<if test="id != null"><![CDATA[ id = #{id},]]></if>
+	 		<if test="callUUID != null and callUUID != ''"><![CDATA[ callUUID = #{callUUID},]]></if>
+	 		<if test="callerIdNumber != null and callerIdNumber != ''"><![CDATA[ callerIdNumber = #{callerIdNumber},]]></if>
+	 		<if test="destinationNumber != null and destinationNumber != ''"><![CDATA[ destinationNumber = #{destinationNumber},]]></if>
+	 		<if test="hangupCase != null and hangupCase != ''"><![CDATA[ hangupCase = #{hangupCase},]]></if>
+	 		<if test="result != null and result != ''"><![CDATA[ result = #{result},]]></if>
+	 		<if test="resultDetail != null and resultDetail != ''"><![CDATA[ resultDetail = #{resultDetail},]]></if>
+	 		<if test="recordFile != null and recordFile != ''"><![CDATA[ recordFile = #{recordFile},]]></if>
+	 		<if test="recordFileQiniu != null and recordFileQiniu != ''"><![CDATA[ recordFileQiniu = #{recordFileQiniu},]]></if>
+	 		<if test="startTimestamp != null"><![CDATA[ startTimestamp = #{startTimestamp},]]></if>
+	 		<if test="endTimestamp != null"><![CDATA[ endTimestamp = #{endTimestamp},]]></if>
+	 		<if test="duration != null"><![CDATA[ duration = #{duration},]]></if>
+	 		<if test="billsec != null"><![CDATA[ billsec = #{billsec},]]></if>
+	 		<if test="priceCal != null"><![CDATA[ priceCal = #{priceCal},]]></if>
+	 		<if test="priceRule != null"><![CDATA[ priceRule = #{priceRule},]]></if>
+	 		<if test="addTime != null"><![CDATA[ addTime = #{addTime},]]></if>
+	 		<if test="updateTime != null"><![CDATA[ updateTime = #{updateTime},]]></if>
+	 		<if test="evaluation != null"><![CDATA[ evaluation = #{evaluation},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.callcenter.CallLogPojo">
+		<![CDATA[ DELETE FROM callLog where id = #{id} ]]>
+	</update>
+</mapper> 

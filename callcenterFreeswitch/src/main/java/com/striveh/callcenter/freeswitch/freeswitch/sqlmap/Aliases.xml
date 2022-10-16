@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【aliases 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.AliasesDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.AliasesPojo" resultType="com.striveh.callcenter.pojo.freeswitch.AliasesPojo">
+		<![CDATA[ 
+			SELECT sticky,alias,command,hostname
+			FROM aliases 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.AliasesPojo" resultType="com.striveh.callcenter.pojo.freeswitch.AliasesPojo">
+		<![CDATA[ 
+			SELECT sticky,alias,command,hostname
+			FROM aliases WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.AliasesPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO aliases (
+			    sticky,alias,command,hostname
+			) VALUES (
+				#{sticky},#{alias},#{command},#{hostname}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.AliasesPojo">
+		<![CDATA[ 
+			INSERT INTO aliases (
+			    sticky,alias,command,hostname
+			) VALUES (
+				#{sticky},#{alias},#{command},#{hostname}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.AliasesPojo">
+		<![CDATA[ UPDATE aliases]]>
+		<set>
+	 		<if test="sticky != null"><![CDATA[ sticky = #{sticky},]]></if>
+	 		<if test="alias != null and alias != ''"><![CDATA[ alias = #{alias},]]></if>
+	 		<if test="command != null and command != ''"><![CDATA[ command = #{command},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.AliasesPojo">
+		<![CDATA[ DELETE FROM aliases where id = #{id} ]]>
+	</update>
+</mapper> 

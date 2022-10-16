@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【voicemail_prefs 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.VoicemailPrefsDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailPrefsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.VoicemailPrefsPojo">
+		<![CDATA[ 
+			SELECT username,domain,name_path,greeting_path,password
+			FROM voicemail_prefs 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailPrefsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.VoicemailPrefsPojo">
+		<![CDATA[ 
+			SELECT username,domain,name_path,greeting_path,password
+			FROM voicemail_prefs WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailPrefsPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO voicemail_prefs (
+			    username,domain,name_path,greeting_path,password
+			) VALUES (
+				#{username},#{domain},#{namePath},#{greetingPath},#{password}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailPrefsPojo">
+		<![CDATA[ 
+			INSERT INTO voicemail_prefs (
+			    username,domain,name_path,greeting_path,password
+			) VALUES (
+				#{username},#{domain},#{namePath},#{greetingPath},#{password}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailPrefsPojo">
+		<![CDATA[ UPDATE voicemail_prefs]]>
+		<set>
+	 		<if test="username != null and username != ''"><![CDATA[ username = #{username},]]></if>
+	 		<if test="domain != null and domain != ''"><![CDATA[ domain = #{domain},]]></if>
+	 		<if test="namePath != null and namePath != ''"><![CDATA[ name_path = #{namePath},]]></if>
+	 		<if test="greetingPath != null and greetingPath != ''"><![CDATA[ greeting_path = #{greetingPath},]]></if>
+	 		<if test="password != null and password != ''"><![CDATA[ password = #{password},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailPrefsPojo">
+		<![CDATA[ DELETE FROM voicemail_prefs where id = #{id} ]]>
+	</update>
+</mapper> 

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【gateway 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.GatewayDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.GatewayPojo" resultType="com.striveh.callcenter.pojo.freeswitch.GatewayPojo">
+		<![CDATA[ 
+			SELECT id,gwCode,gwName,concurrency,usedConcurrency,availableConcurrency,remark,username,password,accountBalance,rechargedAmount,
+				realm,register,registerType,originationCallId,codec,mobilePhonePrefix,fixedPhonePrefix,callLimit,price,billType,status,billsec,expectCount,returnVisit
+			FROM gateway 
+		]]>
+		<where>
+			<if test="status != null"> and status = #{status}</if>
+			<if test="id != null"> and id = #{id}</if>
+		</where>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.GatewayPojo" resultType="com.striveh.callcenter.pojo.freeswitch.GatewayPojo">
+		<![CDATA[ 
+			SELECT id,gwCode,gwName,concurrency,usedConcurrency,availableConcurrency,remark,username,password,accountBalance,rechargedAmount,
+				realm,register,registerType,originationCallId,codec,mobilePhonePrefix,fixedPhonePrefix,callLimit,price,billType,status,billsec,expectCount,returnVisit
+			FROM gateway
+		]]>
+		<where>
+			<choose>
+				<when test="id !=null"> id = #{id}</when>
+				<when test="gwCode !=null"> gwCode=#{gwCode} </when>
+				<when test="returnVisit !=null"> returnVisit=#{returnVisit} order by id desc limit 1</when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.GatewayPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO gateway (
+			    id,gwCode,gwName,concurrency,usedConcurrency,availableConcurrency,remark,username,password,addTime,accountBalance,rechargedAmount,
+				realm,register,registerType,originationCallId,codec,mobilePhonePrefix,fixedPhonePrefix,callLimit,price,billType,status,billsec,expectCount,returnVisit
+			) VALUES (
+				#{id},#{gwCode},#{gwName},#{concurrency},#{usedConcurrency},#{availableConcurrency},#{remark},#{username},#{password},#{addTime},#{accountBalance},#{rechargedAmount},
+				#{realm},#{register},#{registerType},#{originationCallId},#{codec},#{mobilePhonePrefix},#{fixedPhonePrefix},#{callLimit},#{price},#{billType},#{status},#{billsec},#{expectCount}
+				,#{returnVisit}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.GatewayPojo">
+		<![CDATA[ 
+			INSERT INTO gateway (
+			    id,gwCode,gwName,concurrency,usedConcurrency,availableConcurrency,remark,username,password,addTime,
+				realm,register,registerType,originationCallId,codec,mobilePhonePrefix,fixedPhonePrefix,callLimit,price,billType,status,billsec,expectCount,returnVisit
+			) VALUES (
+				#{id},#{gwCode},#{gwName},#{concurrency},#{usedConcurrency},#{availableConcurrency},#{remark},#{username},#{password},#{addTime},
+				#{realm},#{register},#{registerType},#{originationCallId},#{codec},#{mobilePhonePrefix},#{fixedPhonePrefix},#{callLimit},#{price},#{billType},#{status},#{billsec},#{expectCount}
+				,#{returnVisit}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.GatewayPojo">
+		<![CDATA[ UPDATE gateway]]>
+		<set>
+	 		<if test="gwCode != null and gwCode != ''"><![CDATA[ gwCode = #{gwCode},]]></if>
+	 		<if test="gwName != null and gwName != ''"><![CDATA[ gwName = #{gwName},]]></if>
+	 		<if test="concurrency != null"><![CDATA[ concurrency = #{concurrency},]]></if>
+	 		<if test="usedConcurrency != null"><![CDATA[ usedConcurrency = #{usedConcurrency},]]></if>
+	 		<if test="availableConcurrency != null"><![CDATA[ availableConcurrency = #{availableConcurrency},]]></if>
+	 		<if test="remark != null and remark != ''"><![CDATA[ remark = #{remark},]]></if>
+	 		<if test="username != null and username != ''"><![CDATA[ username = #{username},]]></if>
+	 		<if test="password != null and password != ''"><![CDATA[ password = #{password},]]></if>
+	 		<if test="realm != null and realm != ''"><![CDATA[ realm = #{realm},]]></if>
+	 		<if test="registerType != null"><![CDATA[ registerType = #{registerType},]]></if>
+	 		<if test="originationCallId != null and originationCallId != ''"><![CDATA[ originationCallId = #{originationCallId},]]></if>
+	 		<if test="codec != null and codec != ''"><![CDATA[ codec = #{codec},]]></if>
+	 		<if test="mobilePhonePrefix != null and mobilePhonePrefix != ''"><![CDATA[ mobilePhonePrefix = #{mobilePhonePrefix},]]></if>
+	 		<if test="fixedPhonePrefix != null and fixedPhonePrefix != ''"><![CDATA[ fixedPhonePrefix = #{fixedPhonePrefix},]]></if>
+	 		<if test="callLimit != null"><![CDATA[ callLimit = #{callLimit},]]></if>
+	 		<if test="price != null"><![CDATA[ price = #{price},]]></if>
+	 		<if test="billType != null"><![CDATA[ billType = #{billType},]]></if>
+	 		<if test="status != null"><![CDATA[ status = #{status},]]></if>
+	 		<if test="billsec != null"><![CDATA[ billsec = #{billsec},]]></if>
+	 		<if test="expectCount != null"><![CDATA[ expectCount = #{expectCount},]]></if>
+	 		<if test="updateTime != null"><![CDATA[ updateTime = #{updateTime},]]></if>
+	 		<if test="returnVisit != null"><![CDATA[ returnVisit = #{returnVisit},]]></if>
+	 		<if test="accountBalance != null"><![CDATA[ accountBalance = #{accountBalance},]]></if>
+	 		<if test="rechargedAmount != null"><![CDATA[ rechargedAmount = #{rechargedAmount},]]></if>
+		</set>
+		<where>
+			<choose>
+				<when test="id !=null"> id = #{id}</when>
+				<when test="gwCode !=null"> gwCode=#{gwCode} </when>
+				<otherwise>1=0</otherwise>
+			</choose>
+		</where>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.GatewayPojo">
+		<![CDATA[ DELETE FROM gateway where id = #{id} ]]>
+	</update>
+</mapper> 

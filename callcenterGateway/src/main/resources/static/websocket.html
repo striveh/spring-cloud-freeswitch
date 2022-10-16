@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello WebSocket</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/js/websocket.js"></script>
+</head>
+<body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div id="main-content" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="connect">WebSocket connection:</label>
+                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
+                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline">
+                <button id="idle" class="btn btn-default" type="submit">idle</button>
+                <button id="busy" class="btn btn-default" type="submit">busy</button>
+                <button id="bye" class="btn btn-default" type="submit">bye</button>
+                <button id="call" class="btn btn-default" type="submit">call</button>
+                <br>
+                <button id="eavesdrop" class="btn btn-default" type="submit">eavesdrop</button>
+                <button id="stopEavesdrop" class="btn btn-default" type="submit">stopEavesdrop</button>
+                <button id="conference" class="btn btn-default" type="submit">conference</button>
+                <button id="conferenceByUsername" class="btn btn-default" type="submit">conferenceByUsername</button>
+                <button id="stopConference" class="btn btn-default" type="submit">stopConference</button>
+                <button id="previewCall" class="btn btn-default" type="submit">previewCall</button>
+                <button id="playVoice" class="btn btn-default" type="submit">playVoice</button>
+                <button id="stopPlayVoice" class="btn btn-default" type="submit">stopPlayVoice</button>
+                <button id="transfer" class="btn btn-default" type="submit">transfer</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th><<< MESSAGE</th>
+                </tr>
+                </thead>
+                <tbody id="greetings">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

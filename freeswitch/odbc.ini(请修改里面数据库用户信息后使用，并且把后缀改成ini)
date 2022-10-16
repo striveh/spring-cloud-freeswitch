@@ -1,0 +1,10 @@
+[freeswitch]
+Driver = /usr/lib64/libmyodbc5.so
+SERVER = xxx
+PORT = xxx
+DATABASE = xxx
+OPTION = 67108864 #这一行非常重要，FreeSWITCH会将多条SQL放到一起执行，以提高效率，如果没有该选项则会出错
+                  #MYodbc 3.51.18及以后的版本才支持该选项
+USER = call
+PASSWORD = xxx
+Threading = 0

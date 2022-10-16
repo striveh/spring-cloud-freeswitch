@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- <setting name="logImpl" value="STDOUT_LOGGING" /> -->
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<!-- <setting name="enhancementEnabled" value="false" /> -->
+		<!-- <setting name="defaultExecutorType" value="SIMPLE" /> -->
+	</settings>
+	<!-- maxRequests="1500" maxSessions="1500" maxTransactions="1500" cacheModelsEnabled="true" lazyLoadingEnabled="true" enhancementEnabled="true" 
+		useStatementNamespaces="true" classInfoCacheEnabled="true" statementCachingEnabled="true" /> -->
+
+</configuration>  

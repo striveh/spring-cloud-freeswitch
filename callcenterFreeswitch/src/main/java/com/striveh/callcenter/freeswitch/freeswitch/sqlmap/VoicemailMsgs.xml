@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【voicemail_msgs 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.VoicemailMsgsDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailMsgsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.VoicemailMsgsPojo">
+		<![CDATA[ 
+			SELECT created_epoch,read_epoch,username,domain,uuid,cid_name,cid_number,in_folder,
+				file_path,message_len,flags,read_flags,forwarded_by
+			FROM voicemail_msgs 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailMsgsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.VoicemailMsgsPojo">
+		<![CDATA[ 
+			SELECT created_epoch,read_epoch,username,domain,uuid,cid_name,cid_number,in_folder,
+				file_path,message_len,flags,read_flags,forwarded_by
+			FROM voicemail_msgs WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailMsgsPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO voicemail_msgs (
+			    created_epoch,read_epoch,username,domain,uuid,cid_name,cid_number,in_folder,
+				file_path,message_len,flags,read_flags,forwarded_by
+			) VALUES (
+				#{createdEpoch},#{readEpoch},#{username},#{domain},#{uuid},#{cidName},#{cidNumber},#{inFolder},
+				#{filePath},#{messageLen},#{flags},#{readFlags},#{forwardedBy}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailMsgsPojo">
+		<![CDATA[ 
+			INSERT INTO voicemail_msgs (
+			    created_epoch,read_epoch,username,domain,uuid,cid_name,cid_number,in_folder,
+				file_path,message_len,flags,read_flags,forwarded_by
+			) VALUES (
+				#{createdEpoch},#{readEpoch},#{username},#{domain},#{uuid},#{cidName},#{cidNumber},#{inFolder},
+				#{filePath},#{messageLen},#{flags},#{readFlags},#{forwardedBy}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailMsgsPojo">
+		<![CDATA[ UPDATE voicemail_msgs]]>
+		<set>
+	 		<if test="createdEpoch != null"><![CDATA[ created_epoch = #{createdEpoch},]]></if>
+	 		<if test="readEpoch != null"><![CDATA[ read_epoch = #{readEpoch},]]></if>
+	 		<if test="username != null and username != ''"><![CDATA[ username = #{username},]]></if>
+	 		<if test="domain != null and domain != ''"><![CDATA[ domain = #{domain},]]></if>
+	 		<if test="uuid != null and uuid != ''"><![CDATA[ uuid = #{uuid},]]></if>
+	 		<if test="cidName != null and cidName != ''"><![CDATA[ cid_name = #{cidName},]]></if>
+	 		<if test="cidNumber != null and cidNumber != ''"><![CDATA[ cid_number = #{cidNumber},]]></if>
+	 		<if test="inFolder != null and inFolder != ''"><![CDATA[ in_folder = #{inFolder},]]></if>
+	 		<if test="filePath != null and filePath != ''"><![CDATA[ file_path = #{filePath},]]></if>
+	 		<if test="messageLen != null"><![CDATA[ message_len = #{messageLen},]]></if>
+	 		<if test="flags != null and flags != ''"><![CDATA[ flags = #{flags},]]></if>
+	 		<if test="readFlags != null and readFlags != ''"><![CDATA[ read_flags = #{readFlags},]]></if>
+	 		<if test="forwardedBy != null and forwardedBy != ''"><![CDATA[ forwarded_by = #{forwardedBy},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.VoicemailMsgsPojo">
+		<![CDATA[ DELETE FROM voicemail_msgs where id = #{id} ]]>
+	</update>
+</mapper> 

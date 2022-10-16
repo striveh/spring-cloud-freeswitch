@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【cdr 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.CdrDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.CdrPojo" resultType="com.striveh.callcenter.pojo.freeswitch.CdrPojo">
+		<![CDATA[ 
+			SELECT caller_id_name callerIdName,caller_id_number callerIdNumber,destination_number destinationNumber,context,start_timestamp startTimestamp,answer_timestamp answerTimestamp
+			,end_timestamp endTimestamp,duration,billsec,hangup_cause hangupCause,uuid,bleg_uuid blegUuid,accountcode,read_codec readCodec,
+			write_codec writeCodec,sip_gateway_name sipGatewayName,project_code projectCode,call_task_code callTaskCode
+				
+			FROM cdr 
+		]]>
+		<where>
+			<if test="projectCode != null and projectCode != ''"> and <![CDATA[ project_code = #{projectCode}]]></if>
+			<if test="callTaskCode != null and callTaskCode != ''"> and <![CDATA[ call_task_code = #{callTaskCode}]]></if>
+		</where>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.CdrPojo" resultType="com.striveh.callcenter.pojo.freeswitch.CdrPojo">
+		<![CDATA[ 
+			SELECT caller_id_name callerIdName,caller_id_number callerIdNumber,destination_number destinationNumber,context,start_timestamp startTimestamp,answer_timestamp answerTimestamp
+			,end_timestamp endTimestamp,duration,billsec,hangup_cause hangupCause,uuid,bleg_uuid blegUuid,accountcode,read_codec readCodec,
+			write_codec writeCodec,sip_gateway_name sipGatewayName,project_code projectCode,call_task_code callTaskCode
+				
+			FROM cdr WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.CdrPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO cdr (
+			    caller_id_name,caller_id_number,destination_number,context,start_timestamp,answer_timestamp,end_timestamp,duration,
+				billsec,hangup_cause,uuid,bleg_uuid,accountcode,read_codec,write_codec,sip_gateway_name
+				
+			) VALUES (
+				#{callerIdName},#{callerIdNumber},#{destinationNumber},#{context},#{startTimestamp},#{answerTimestamp},#{endTimestamp},#{duration},
+				#{billsec},#{hangupCause},#{uuid},#{blegUuid},#{accountcode},#{readCodec},#{writeCodec},#{sipGatewayName}
+				
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.CdrPojo">
+		<![CDATA[ 
+			INSERT INTO cdr (
+			    caller_id_name,caller_id_number,destination_number,context,start_timestamp,answer_timestamp,end_timestamp,duration,
+				billsec,hangup_cause,uuid,bleg_uuid,accountcode,read_codec,write_codec,sip_gateway_name
+				
+			) VALUES (
+				#{callerIdName},#{callerIdNumber},#{destinationNumber},#{context},#{startTimestamp},#{answerTimestamp},#{endTimestamp},#{duration},
+				#{billsec},#{hangupCause},#{uuid},#{blegUuid},#{accountcode},#{readCodec},#{writeCodec},#{sipGatewayName}
+				
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.CdrPojo">
+		<![CDATA[ UPDATE cdr]]>
+		<set>
+	 		<if test="callerIdName != null and callerIdName != ''"><![CDATA[ caller_id_name = #{callerIdName},]]></if>
+	 		<if test="callerIdNumber != null and callerIdNumber != ''"><![CDATA[ caller_id_number = #{callerIdNumber},]]></if>
+	 		<if test="destinationNumber != null and destinationNumber != ''"><![CDATA[ destination_number = #{destinationNumber},]]></if>
+	 		<if test="context != null and context != ''"><![CDATA[ context = #{context},]]></if>
+	 		<if test="startTimestamp != null"><![CDATA[ start_timestamp = #{startTimestamp},]]></if>
+	 		<if test="answerTimestamp != null"><![CDATA[ answer_timestamp = #{answerTimestamp},]]></if>
+	 		<if test="endTimestamp != null"><![CDATA[ end_timestamp = #{endTimestamp},]]></if>
+	 		<if test="duration != null"><![CDATA[ duration = #{duration},]]></if>
+	 		<if test="billsec != null"><![CDATA[ billsec = #{billsec},]]></if>
+	 		<if test="hangupCause != null and hangupCause != ''"><![CDATA[ hangup_cause = #{hangupCause},]]></if>
+	 		<if test="uuid != null and uuid != ''"><![CDATA[ uuid = #{uuid},]]></if>
+	 		<if test="blegUuid != null and blegUuid != ''"><![CDATA[ bleg_uuid = #{blegUuid},]]></if>
+	 		<if test="accountcode != null and accountcode != ''"><![CDATA[ accountcode = #{accountcode},]]></if>
+	 		<if test="readCodec != null and readCodec != ''"><![CDATA[ read_codec = #{readCodec},]]></if>
+	 		<if test="writeCodec != null and writeCodec != ''"><![CDATA[ write_codec = #{writeCodec},]]></if>
+	 		<if test="sipGatewayName != null and sipGatewayName != ''"><![CDATA[ sip_gateway_name = #{sipGatewayName},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.CdrPojo">
+		<![CDATA[ DELETE FROM cdr where id = #{id} ]]>
+	</update>
+</mapper> 

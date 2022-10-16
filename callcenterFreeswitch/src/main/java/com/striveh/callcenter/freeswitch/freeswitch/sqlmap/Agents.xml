@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【agents 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.AgentsDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.AgentsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.AgentsPojo">
+		<![CDATA[ 
+			SELECT name,system,uuid,type,contact,status,state,max_no_answer,
+				wrap_up_time,reject_delay_time,busy_delay_time,no_answer_delay_time,last_bridge_start,last_bridge_end,last_offered_call,last_status_change,
+				no_answer_count,calls_answered,talk_time,ready_time,external_calls_count
+			FROM agents 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.AgentsPojo" resultType="com.striveh.callcenter.pojo.freeswitch.AgentsPojo">
+		<![CDATA[ 
+			SELECT name,system,uuid,type,contact,status,state,max_no_answer,
+				wrap_up_time,reject_delay_time,busy_delay_time,no_answer_delay_time,last_bridge_start,last_bridge_end,last_offered_call,last_status_change,
+				no_answer_count,calls_answered,talk_time,ready_time,external_calls_count
+			FROM agents WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.AgentsPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO agents (
+			    name,system,uuid,type,contact,status,state,max_no_answer,
+				wrap_up_time,reject_delay_time,busy_delay_time,no_answer_delay_time,last_bridge_start,last_bridge_end,last_offered_call,last_status_change,
+				no_answer_count,calls_answered,talk_time,ready_time,external_calls_count
+			) VALUES (
+				#{name},#{system},#{uuid},#{type},#{contact},#{status},#{state},#{maxNoAnswer},
+				#{wrapUpTime},#{rejectDelayTime},#{busyDelayTime},#{noAnswerDelayTime},#{lastBridgeStart},#{lastBridgeEnd},#{lastOfferedCall},#{lastStatusChange},
+				#{noAnswerCount},#{callsAnswered},#{talkTime},#{readyTime},#{externalCallsCount}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.AgentsPojo">
+		<![CDATA[ 
+			INSERT INTO agents (
+			    name,system,uuid,type,contact,status,state,max_no_answer,
+				wrap_up_time,reject_delay_time,busy_delay_time,no_answer_delay_time,last_bridge_start,last_bridge_end,last_offered_call,last_status_change,
+				no_answer_count,calls_answered,talk_time,ready_time,external_calls_count
+			) VALUES (
+				#{name},#{system},#{uuid},#{type},#{contact},#{status},#{state},#{maxNoAnswer},
+				#{wrapUpTime},#{rejectDelayTime},#{busyDelayTime},#{noAnswerDelayTime},#{lastBridgeStart},#{lastBridgeEnd},#{lastOfferedCall},#{lastStatusChange},
+				#{noAnswerCount},#{callsAnswered},#{talkTime},#{readyTime},#{externalCallsCount}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.AgentsPojo">
+		<![CDATA[ UPDATE agents]]>
+		<set>
+	 		<if test="name != null and name != ''"><![CDATA[ name = #{name},]]></if>
+	 		<if test="system != null and system != ''"><![CDATA[ system = #{system},]]></if>
+	 		<if test="uuid != null and uuid != ''"><![CDATA[ uuid = #{uuid},]]></if>
+	 		<if test="type != null and type != ''"><![CDATA[ type = #{type},]]></if>
+	 		<if test="contact != null and contact != ''"><![CDATA[ contact = #{contact},]]></if>
+	 		<if test="status != null and status != ''"><![CDATA[ status = #{status},]]></if>
+	 		<if test="state != null and state != ''"><![CDATA[ state = #{state},]]></if>
+	 		<if test="maxNoAnswer != null"><![CDATA[ max_no_answer = #{maxNoAnswer},]]></if>
+	 		<if test="wrapUpTime != null"><![CDATA[ wrap_up_time = #{wrapUpTime},]]></if>
+	 		<if test="rejectDelayTime != null"><![CDATA[ reject_delay_time = #{rejectDelayTime},]]></if>
+	 		<if test="busyDelayTime != null"><![CDATA[ busy_delay_time = #{busyDelayTime},]]></if>
+	 		<if test="noAnswerDelayTime != null"><![CDATA[ no_answer_delay_time = #{noAnswerDelayTime},]]></if>
+	 		<if test="lastBridgeStart != null"><![CDATA[ last_bridge_start = #{lastBridgeStart},]]></if>
+	 		<if test="lastBridgeEnd != null"><![CDATA[ last_bridge_end = #{lastBridgeEnd},]]></if>
+	 		<if test="lastOfferedCall != null"><![CDATA[ last_offered_call = #{lastOfferedCall},]]></if>
+	 		<if test="lastStatusChange != null"><![CDATA[ last_status_change = #{lastStatusChange},]]></if>
+	 		<if test="noAnswerCount != null"><![CDATA[ no_answer_count = #{noAnswerCount},]]></if>
+	 		<if test="callsAnswered != null"><![CDATA[ calls_answered = #{callsAnswered},]]></if>
+	 		<if test="talkTime != null"><![CDATA[ talk_time = #{talkTime},]]></if>
+	 		<if test="readyTime != null"><![CDATA[ ready_time = #{readyTime},]]></if>
+	 		<if test="externalCallsCount != null"><![CDATA[ external_calls_count = #{externalCallsCount},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.AgentsPojo">
+		<![CDATA[ DELETE FROM agents where id = #{id} ]]>
+	</update>
+</mapper> 

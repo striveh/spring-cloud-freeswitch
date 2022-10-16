@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: off > fatal > error > warn > info > debug > trace > all -->
+<!--status，这个用于设置log4j2自身内部的信息输出，，当设置成trace时，你会看到log4j2内部各种详细输出 -->
+<Configuration status="warn">
+	<Properties>
+		<Property name="logFormat">
+			[%d %X{X-B3-TraceId:-} %p %25.25c] [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-B3-Sampled},%X{X-Span-Name}] %25.25t\: %m%n
+		</Property>
+	</Properties>
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${logFormat}" />
+		</Console>
+		<RollingFile name="rollingFileInfo" fileName="${sys:user.dir}/logs/freeswitch.log" filePattern="${sys:user.dir}/logs/freeswitch_%d{yyyyMMddHH}.log">
+			<PatternLayout pattern="${logFormat}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${sys:user.dir}/logs" maxDepth="1">
+					<IfFileName glob="freeswitch_*.log" />
+					<IfLastModified age="30d" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		<RollingFile name="rollingFileError" fileName="${sys:user.dir}/logs/freeswitch.error.log" filePattern="${sys:user.dir}/logs/freeswitch.error_%d{yyyyMMdd}.log">
+			<PatternLayout pattern="${logFormat}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${sys:user.dir}/logs" maxDepth="1">
+					<IfFileName glob="freeswitch.error_*.log" />
+					<IfLastModified age="30d" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.striveh" level="info" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="rollingFileInfo" />
+		</Logger>
+		<Logger name="log4jdbc.log4j2" level="info" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="rollingFileInfo" />
+			<!--参考 net.sf.log4jdbc.log.log4j2.Log4j2SpyLogDelegator(ACCEPT:同意 NEUTRAL：中立 DENY：拒绝) -->
+			<MarkerFilter marker="LOG4JDBC_SQL" onMatch="ACCEPT" onMismatch="DENY" />
+			<MarkerFilter marker="LOG4JDBC_SELECT" onMatch="ACCEPT" onMismatch="DENY" />
+		 </Logger>
+
+		<Root level="warn">
+			<AppenderRef ref="rollingFileInfo" />
+			<AppenderRef ref="rollingFileError" />
+			<AppenderRef ref="console" />
+		</Root>
+	</Loggers>
+</Configuration>
+
+
+<!-- %d [%X{loginUserId}/%X{req.remoteAddr}/%X{traceId} - %X{entranceMethod} - %X{req.requestURIWithQueryString}] %-5p %c -->
+<!-- －X: X信息输出时左对齐 -->
+<!-- %p: 输出日志信息优先级，即DEBUG，info，warn，error，fatal, -->
+<!-- %d: 输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，比如：%d{yyyy-MM-dd HH:mm:ss,SSS}，输出类似：2011-10-18 22:10:28,921 -->
+<!-- %r: 输出自应用启动到输出该log信息耗费的毫秒数 -->
+<!-- %c: 输出日志信息所属的类目，通常就是所在类的全名 -->
+<!-- %t: 输出产生该日志事件的线程名 -->
+<!-- %l: 输出日志事件的发生位置，相当于%C.%M(%F:%L)的组合,包括类目名、发生的线程，以及在代码中的行数。 -->
+<!-- %x: 输出和当前线程相关联的NDC(嵌套诊断环境),尤其用到像java servlets这样的多客户多线程的应用中。 -->
+<!-- %%: 输出一个"%"字符 -->
+<!-- %F: 输出日志消息产生时所在的文件名称 -->
+<!-- %L: 输出代码中的行号 -->
+<!-- %m: 输出代码中指定的消息,产生的日志具体信息 -->
+<!-- %n: 输出一个回车换行符，Windows平台为"\r\n"，Unix平台为"\n"输出日志信息换行 -->
+
+
+<!-- 可以在%与模式字符之间加上修饰符来控制其最小宽度、最大宽度、和文本的对齐方式。如： -->
+<!-- 1)%20c：指定输出category的名称，最小的宽度是20，如果category的名称小于20的话，默认的情况下右对齐。 -->
+<!-- 2)%-20c:指定输出category的名称，最小的宽度是20，如果category的名称小于20的话，"-"号指定左对齐。 -->
+<!-- 3)%.30c:指定输出category的名称，最大的宽度是30，如果category的名称大于30的话，就会将左边多出的字符截掉，但小于30的话也不会有空格。 -->
+<!-- 4)%20.30c:如果category的名称小于20就补空格，并且右对齐，如果其名称长于30字符，就从左边交远销出的字符截掉 -->
+

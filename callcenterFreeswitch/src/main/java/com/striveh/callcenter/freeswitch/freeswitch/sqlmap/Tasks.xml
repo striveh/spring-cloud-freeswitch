@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!--【tasks 】sql -->
+<mapper namespace="com.striveh.callcenter.freeswitch.freeswitch.dao.TasksDao">
+	<!-- ==============================非基础操作======================================= -->
+	
+	<!-- ==============================基础操作======================================= -->
+	<!--根据条件得到列表 -->
+	<select id="selectList" parameterType="com.striveh.callcenter.pojo.freeswitch.TasksPojo" resultType="com.striveh.callcenter.pojo.freeswitch.TasksPojo">
+		<![CDATA[ 
+			SELECT task_id,task_desc,task_group,task_runtime,task_sql_manager,hostname
+			FROM tasks 
+		]]>
+	</select>
+
+	<!--根据id得到记录 -->
+	<select id="selectUnique" parameterType="com.striveh.callcenter.pojo.freeswitch.TasksPojo" resultType="com.striveh.callcenter.pojo.freeswitch.TasksPojo">
+		<![CDATA[ 
+			SELECT task_id,task_desc,task_group,task_runtime,task_sql_manager,hostname
+			FROM tasks WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.striveh.callcenter.pojo.freeswitch.TasksPojo"
+		useGeneratedKeys="true"	keyProperty="id" keyColumn="id">
+		<![CDATA[ 
+			INSERT INTO tasks (
+			    task_id,task_desc,task_group,task_runtime,task_sql_manager,hostname
+			) VALUES (
+				#{taskId},#{taskDesc},#{taskGroup},#{taskRuntime},#{taskSqlManager},#{hostname}
+			)
+		]]>
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="insertList" parameterType="com.striveh.callcenter.pojo.freeswitch.TasksPojo">
+		<![CDATA[ 
+			INSERT INTO tasks (
+			    task_id,task_desc,task_group,task_runtime,task_sql_manager,hostname
+			) VALUES (
+				#{taskId},#{taskDesc},#{taskGroup},#{taskRuntime},#{taskSqlManager},#{hostname}
+			)
+		]]>
+	</insert>
+	
+	<!-- 修改记录 -->
+	<update id="update" parameterType="com.striveh.callcenter.pojo.freeswitch.TasksPojo">
+		<![CDATA[ UPDATE tasks]]>
+		<set>
+	 		<if test="taskId != null"><![CDATA[ task_id = #{taskId},]]></if>
+	 		<if test="taskDesc != null and taskDesc != ''"><![CDATA[ task_desc = #{taskDesc},]]></if>
+	 		<if test="taskGroup != null and taskGroup != ''"><![CDATA[ task_group = #{taskGroup},]]></if>
+	 		<if test="taskRuntime != null"><![CDATA[ task_runtime = #{taskRuntime},]]></if>
+	 		<if test="taskSqlManager != null"><![CDATA[ task_sql_manager = #{taskSqlManager},]]></if>
+	 		<if test="hostname != null and hostname != ''"><![CDATA[ hostname = #{hostname},]]></if>
+		</set>
+		 <![CDATA[ WHERE id = #{id} ]]>
+	</update>
+	
+	<!-- 删除记录 -->
+	<update id="delete" parameterType="com.striveh.callcenter.pojo.freeswitch.TasksPojo">
+		<![CDATA[ DELETE FROM tasks where id = #{id} ]]>
+	</update>
+</mapper> 

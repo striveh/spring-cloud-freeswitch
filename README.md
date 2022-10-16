@@ -219,39 +219,39 @@ nginx配置如下：
 
 域名及证书改为自己需要的
 
-server {
-listen       80;
-listen       443 ssl;
-server_name  xxx;
+        server {
+                listen       80;
+                listen       443 ssl;
+                server_name  xxx;
 
-        ssl_certificate      xxx;
-        ssl_certificate_key  xxx;
+                ssl_certificate      xxx;
+                ssl_certificate_key  xxx;
 
-        ssl_session_cache    shared:SSL:1m;
-        ssl_session_timeout  5m;
+                ssl_session_cache    shared:SSL:1m;
+                ssl_session_timeout  5m;
 
-        ssl_ciphers  HIGH:!aNULL:!MD5;
-        ssl_prefer_server_ciphers  on;
+                ssl_ciphers  HIGH:!aNULL:!MD5;
+                ssl_prefer_server_ciphers  on;
 
-        location / {
-            proxy_http_version 1.1;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header REMOTE_HOST $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto  $scheme;
-            proxy_pass xxx;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "Upgrade";
-            proxy_read_timeout 300s;
-            client_max_body_size 20M;
-            client_body_buffer_size 2048K;
-            fastcgi_buffer_size 1024K;
-            fastcgi_buffers 32 256K;
-            fastcgi_busy_buffers_size 1024K;
+                location / {
+                    proxy_http_version 1.1;
+                    proxy_set_header Host $host;
+                    proxy_set_header X-Real-IP $remote_addr;
+                    proxy_set_header REMOTE_HOST $remote_addr;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto  $scheme;
+                    proxy_pass xxx;
+                    proxy_set_header Upgrade $http_upgrade;
+                    proxy_set_header Connection "Upgrade";
+                    proxy_read_timeout 300s;
+                    client_max_body_size 20M;
+                    client_body_buffer_size 2048K;
+                    fastcgi_buffer_size 1024K;
+                    fastcgi_buffers 32 256K;
+                    fastcgi_busy_buffers_size 1024K;
+                }
         }
 
-}
 
 C. callcenterFreeswitch：该模块主要封装了Freeswitch相关的数据库表的操作（userinfo、gateway），一般情况下只要正常默默的运行着就行，不需要做什么维护操作；
 
